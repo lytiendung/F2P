@@ -35,7 +35,6 @@ public class MainFrame extends JFrame {
 		setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-		setBounds(100, 100, 799, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
