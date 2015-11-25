@@ -8,6 +8,15 @@ public class TreeModel {
 	private String lastname;
 	private String rare;
 
+	public TreeModel() {
+		this.id = -1;
+		this.nameVi = "";
+		this.nameEn = "";
+		this.nameLatinh = "";
+		this.lastname = "";
+		this.rare = "";
+	}
+
 	public TreeModel(long id, String nameVi, String nameEn, String nameLatinh, String lastname, String rare) {
 		this.id = id;
 		this.nameVi = nameVi;
@@ -63,6 +72,11 @@ public class TreeModel {
 
 	public void setRare(String rare) {
 		this.rare = rare;
+	}
+
+	public boolean isEmptyObj() {
+		// only check properties required
+		return (this.nameVi.isEmpty() && this.nameEn.isEmpty() && this.rare.isEmpty());
 	}
 
 }
