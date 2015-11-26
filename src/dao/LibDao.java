@@ -11,11 +11,6 @@ import model.TreeModel;
 
 public class LibDao {
 
-	public static void main(String[] args) {
-		int[] ids = new int[1];
-		System.out.println(listToString(ids));
-	}
-
 	public static ArrayList<TreeModel> loadLibTrees() {
 		try {
 			Connection conn = DBConnection.DBConnect();
@@ -60,9 +55,9 @@ public class LibDao {
 		}
 	}
 
-	public static String listToString(int[] list) {
+	public static String listToString(ArrayList<Integer> list) {
 		StringBuilder result = new StringBuilder();
-		for (int i : list) {
+		for (Integer i : list) {
 			result.append(",").append(i);
 		}
 		result.replace(0, 1, "(").append(")");
@@ -70,16 +65,34 @@ public class LibDao {
 		return result.toString();
 	}
 
+	private static ArrayList<Integer> fillterList(int[] ids) {
+		ArrayList<Integer> fillterList = new ArrayList<>();
+		for (int i : ids)
+			if (i != -1)
+				fillterList.add(i);
+
+		return fillterList;
+	}
+
 	public static boolean deleteRecordTreeTable(int[] ids) {
+		ArrayList<Integer> fillterList = fillterList(ids);
+		String whereCond = listToString(fillterList);
+
+		System.out.println("list ids to delete: " + whereCond);
+
+		// case list have id -1
+		if (fillterList.isEmpty())
+			return true;
+
 		try {
 			Connection conn = DBConnection.DBConnect();
 			Statement sta = conn.createStatement();
-			int del = sta.executeUpdate("DELETE FROM trees WHERE id IN " + listToString(ids));
+			int del = sta.executeUpdate("DELETE FROM trees WHERE id IN " + whereCond);
 
 			sta.close();
 			conn.close();
 
-			return (del == ids.length);
+			return (del == fillterList.size());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -93,9 +106,10 @@ public class LibDao {
 			boolean result = false;
 
 			if (treeModel.getId() != -1) {
+				System.out.println("update obj");
 				// update
 				pre = conn.prepareStatement(
-						"UPDATE trees SET (name_vi=?,name_en=?,name_latinh=?,last_name=?,rare=?) WHERE id=?");
+						"UPDATE trees SET name_vi=?,name_en=?,name_latinh=?,last_name=?,rare=? WHERE id=?");
 				pre.setString(1, treeModel.getNameVi());
 				pre.setString(2, treeModel.getNameEn());
 				pre.setString(3, treeModel.getNameLatinh());
@@ -103,9 +117,11 @@ public class LibDao {
 				pre.setString(5, treeModel.getRare());
 				pre.setLong(6, treeModel.getId());
 			} else {
+				System.out.println("save obj");
 				// save
 				pre = conn.prepareStatement(
-						"INSERT INTO trees(name_vi,name_en,name_latinh,last_name,rare) VALUES(?,?,?,?,?)");
+						"INSERT INTO trees(name_vi,name_en,name_latinh,last_name,rare) VALUES(?,?,?,?,?)",
+						PreparedStatement.RETURN_GENERATED_KEYS);
 				pre.setString(1, treeModel.getNameVi());
 				pre.setString(2, treeModel.getNameEn());
 				pre.setString(3, treeModel.getNameLatinh());
@@ -114,6 +130,12 @@ public class LibDao {
 			}
 
 			result = pre.executeUpdate() > 0;
+			if (result) {
+				// update id
+				ResultSet rs = pre.getGeneratedKeys();
+				if (rs.next())
+					treeModel.setId(rs.getLong(1));
+			}
 
 			pre.close();
 			conn.close();

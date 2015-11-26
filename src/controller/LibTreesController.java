@@ -2,12 +2,14 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
 import factory.CommandFactory;
 import factory.MessageFactory;
 import model.LibTreesModel;
+import model.TreeModel;
 import view.PanelLibTrees;
 
 public class LibTreesController implements ActionListener {
@@ -33,18 +35,30 @@ public class LibTreesController implements ActionListener {
 			break;
 		case CommandFactory.DELETE_CMD:
 			int[] rows = view.getSelectedRows();
-			System.out.println("number of row selected: " + rows.length);
+			testDeleteMethod(rows);
 
 			if (rows.length == 0) {
 				MessageFactory.showMessageDialog(MessageFactory.windowForComponent(view),
 						"Vui lòng chọn một (hoặc nhiều dòng) cần xóa", "Cảnh báo lỗi", MessageFactory.ERROR_MESSAGE);
 				return;
-			} else if (rows.length == model.getRowCount()) {
-				System.out.println("result of clear action: " + model.clearData());
-			} else {
+			} else if (MessageFactory.showQuestionDialog(MessageFactory.windowForComponent(view),
+					"Bạn có chắc muốn xóa các dòng hiện tại", "Xác nhận",
+					MessageFactory.WARNING_MESSAGE) == MessageFactory.OK_OPTION) {
 				System.out.println("result of delete action: " + model.deleteRow(rows));
 			}
 			break;
+		case CommandFactory.RELOAD_CMD:
+			model.refreshData();
+			model.fireTableDataChanged();
+			break;
+		}
+	}
+
+	private void testDeleteMethod(int[] rows) {
+		System.out.println("====number of row selected: " + rows.length + "====");
+		System.out.println("row index: " + Arrays.toString(rows));
+		for (int i : rows) {
+			System.out.println(((TreeModel) model.getObjAtRow(i)).getNameVi());
 		}
 	}
 

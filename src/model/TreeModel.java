@@ -76,7 +76,7 @@ public class TreeModel {
 
 	public boolean isEmptyObj() {
 		// only check properties required
-		return (this.nameVi.isEmpty() && this.nameEn.isEmpty() && this.rare.isEmpty());
+		return (this.nameVi.isEmpty() || this.nameLatinh.isEmpty() || this.rare.isEmpty());
 	}
 
 }
