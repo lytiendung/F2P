@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.SolutionModel;
 import model.TreeModel;
 
 public class LibDao {
@@ -147,6 +148,34 @@ public class LibDao {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	// TODO solutions
+	public static List<Object> loadLibSolutions() {
+		try {
+			Connection conn = DBConnection.DBConnect();
+			Statement sta = conn.createStatement();
+			ResultSet rs = sta.executeQuery("SELECT * FROM solutions");
+
+			List<Object> result = new ArrayList<>();
+			SolutionModel sol = null;
+			while (rs.next()) {
+				sol = new SolutionModel(rs.getLong("id"), rs.getString("bihavior"), rs.getString("solution"),
+						rs.getString("place"));
+				result.add(sol);
+			}
+
+			rs.close();
+			sta.close();
+			conn.close();
+
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }
