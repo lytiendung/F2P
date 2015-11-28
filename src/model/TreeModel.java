@@ -1,6 +1,6 @@
 package model;
 
-public class TreeModel {
+public class TreeModel extends AbstracModelObject {
 	private long id;
 	private String nameVi;
 	private String nameEn;
@@ -74,6 +74,7 @@ public class TreeModel {
 		this.rare = rare;
 	}
 
+	@Override
 	public boolean isEmptyObj() {
 		// only check properties required
 		return (this.nameVi.isEmpty() || this.nameLatinh.isEmpty() || this.rare.isEmpty());

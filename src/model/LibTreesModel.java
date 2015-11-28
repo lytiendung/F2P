@@ -1,56 +1,41 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.swing.table.AbstractTableModel;
 
 import dao.LibDao;
 
-public class LibTreesModel extends AbstractTableModel implements DataTableInterface {
+public class LibTreesModel extends AbstractDataTable {
 	private static final long serialVersionUID = -1841929008517561740L;
-	private ArrayList<TreeModel> data;
-	private ArrayList<String> columnIdentifiers;
 
 	public LibTreesModel() {
-		this.columnIdentifiers = new ArrayList<String>(
-				Arrays.asList("Tên (vi)", "Tên (en)", "Tên (Latinh)", "Họ", "Quý hiếm"));
-		refreshData();
+		super();
+		this.columnIdentifiers.addAll(Arrays.asList("Tên (vi)", "Tên (en)", "Tên (Latinh)", "Họ", "Quý hiếm"));
 	}
 
 	@Override
-	public int getColumnCount() {
-		return columnIdentifiers.size();
-	}
-
-	@Override
-	public int getRowCount() {
-		return data.size();
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return columnIdentifiers.get(column);
+	public void loadData() {
+		this.data = LibDao.loadLibTrees();
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Object val = null;
+		TreeModel tree = (TreeModel) data.get(rowIndex);
 		switch (columnIndex) {
 		case 0: // name vi
-			val = data.get(rowIndex).getNameVi();
+			val = tree.getNameVi();
 			break;
 		case 1: // name en
-			val = data.get(rowIndex).getNameEn();
+			val = tree.getNameEn();
 			break;
 		case 2: // name latinh
-			val = data.get(rowIndex).getNameLatinh();
+			val = tree.getNameLatinh();
 			break;
 		case 3: // last name
-			val = data.get(rowIndex).getLastname();
+			val = tree.getLastname();
 			break;
 		default: // rare
-			val = data.get(rowIndex).getRare();
+			val = tree.getRare();
 			break;
 		}
 
@@ -60,7 +45,7 @@ public class LibTreesModel extends AbstractTableModel implements DataTableInterf
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		String str = (String) aValue;
-		TreeModel tree = data.get(rowIndex);
+		TreeModel tree = (TreeModel) data.get(rowIndex);
 		boolean modified = false;
 		boolean propNull = false;
 
@@ -112,11 +97,6 @@ public class LibTreesModel extends AbstractTableModel implements DataTableInterf
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return getRowCount() == 0;
-	}
-
-	@Override
 	public boolean clearData() {
 		if (!isEmpty())
 			// clear database
@@ -130,16 +110,6 @@ public class LibTreesModel extends AbstractTableModel implements DataTableInterf
 
 		fireTableDataChanged();
 		return true;
-	}
-
-	@Override
-	public void refreshData() {
-		this.data = LibDao.loadLibTrees();
-	}
-
-	@Override
-	public boolean hasNullRow() {
-		return (!isEmpty()) ? data.get(this.getRowCount() - 1).isEmptyObj() : false;
 	}
 
 	@Override
@@ -177,25 +147,20 @@ public class LibTreesModel extends AbstractTableModel implements DataTableInterf
 
 	@Override
 	public boolean saveOrUpdateRow(int row) {
-		return LibDao.saveOrUpdateTree(data.get(row));
+		return LibDao.saveOrUpdateTree((TreeModel) data.get(row));
 	}
 
 	@Override
 	public void autoSave(int row) {
-		TreeModel tree = data.get(row);
+		TreeModel tree = (TreeModel) data.get(row);
 		if (!tree.isEmptyObj())
 			LibDao.saveOrUpdateTree(tree);
-	}
-
-	@Override
-	public Object getObjAtRow(int row) {
-		return data.get(row);
 	}
 
 	public int[] rowListToIdList(int[] rows) {
 		int[] ids = new int[rows.length];
 		for (int i = 0; i < rows.length; i++) {
-			ids[i] = (int) data.get(rows[i]).getId();
+			ids[i] = (int) ((TreeModel) data.get(rows[i])).getId();
 		}
 		return ids;
 	}

@@ -6,18 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.TreeModel;
 
 public class LibDao {
 
-	public static ArrayList<TreeModel> loadLibTrees() {
+	public static List<Object> loadLibTrees() {
 		try {
 			Connection conn = DBConnection.DBConnect();
 			Statement sta = conn.createStatement();
 			ResultSet rs = sta.executeQuery("SELECT * FROM trees");
 
-			ArrayList<TreeModel> result = new ArrayList<>();
+			List<Object> result = new ArrayList<>();
 			TreeModel tree = null;
 			while (rs.next()) {
 				tree = new TreeModel(rs.getLong("id"), rs.getString("name_vi"), rs.getString("name_en"),
