@@ -46,15 +46,15 @@ public class LoginController implements ActionListener, FocusListener, ViewContr
 				public void actionPerformed(ActionEvent e) {
 					try {
 						Thread.sleep(1500);
-						((MainFrame) SwingUtilities.getWindowAncestor(view))
-								.doChangeDisplay(CommandFactory.PANEL_WORKSPACE);
-						;
+						MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(view);
+						frame.doChangeDisplay(CommandFactory.PANEL_WORKSPACE);
+						frame.doVisibleMenuBar(true);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
 				}
 			};
-			BusyDialog.showBusyDialog(view, "Ket noi database", 450, 225, action, "");
+			BusyDialog.showBusyDialog(view, "Connecting to database...", 450, 225, action, "");
 			break;
 		case CommandFactory.EXIT_CMD:
 			model.doExit(getView());

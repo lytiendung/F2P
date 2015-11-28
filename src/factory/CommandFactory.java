@@ -21,7 +21,12 @@ public interface CommandFactory {
 	public static final String CELL_CHECKBOX_CMD = "ccb";
 	public static final String LOGIN_CMD = "login";
 
+	public static final String TREE_LIB_CMD = "treelib";
+	public static final String ANIMAL_LIB_CMD = "animallib";
+	public static final String SOLUTION_LIB_CMD = "solutionlib";
+
 	public static final String PANEL_LIB_TREE = "libTrees";
 	public static final String PANEL_WORKSPACE = "workspace";
 	public static final String PANEL_LOGIN = "plogin";
+	public static final String PANEL_LIB_SOLUTION = "libSolution";
 }
