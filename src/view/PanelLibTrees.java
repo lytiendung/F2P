@@ -104,7 +104,7 @@ public class PanelLibTrees extends JPanel {
 		LibTreesController controller = new LibTreesController(model);
 
 		jframe.setContentPane(controller.getView());
-		jframe.setSize(600, 400);
+		jframe.setSize(900, 400);
 		jframe.setVisible(true);
 	}
 

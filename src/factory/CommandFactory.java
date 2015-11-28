@@ -19,4 +19,9 @@ public interface CommandFactory {
 	public static final String GUESS_SESSION_CMD = "gus";
 	public static final String BACK_CMD = "bak";
 	public static final String CELL_CHECKBOX_CMD = "ccb";
+	public static final String LOGIN_CMD = "login";
+
+	public static final String PANEL_LIB_TREE = "libTrees";
+	public static final String PANEL_WORKSPACE = "workspace";
+	public static final String PANEL_LOGIN = "plogin";
 }

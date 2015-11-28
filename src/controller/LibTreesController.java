@@ -1,10 +1,9 @@
 package controller;
 
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-
-import javax.swing.JPanel;
 
 import factory.CommandFactory;
 import factory.MessageFactory;
@@ -12,7 +11,7 @@ import model.LibTreesModel;
 import model.TreeModel;
 import view.PanelLibTrees;
 
-public class LibTreesController implements ActionListener {
+public class LibTreesController implements ActionListener, ViewController {
 	private LibTreesModel model;
 	private PanelLibTrees view;
 
@@ -62,7 +61,8 @@ public class LibTreesController implements ActionListener {
 		}
 	}
 
-	public JPanel getView() {
+	@Override
+	public Container getView() {
 		return view;
 	}
 

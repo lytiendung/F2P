@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="libs/hsqldb.jar"/>
 	<classpathentry kind="lib" path="libs/jackcess-2.1.2.jar"/>
 	<classpathentry kind="lib" path="libs/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="libs/busydialog-v1.1.jar"/>
+	<classpathentry kind="lib" path="libs/miglayout15-swing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
