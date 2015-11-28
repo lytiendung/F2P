@@ -7,14 +7,14 @@ import javax.swing.JPanel;
 
 import factory.CommandFactory;
 import factory.MessageFactory;
-import model.LibSolutionsModel;
+import model.datatable.SolutionsDataTable;
 import view.PanelLibSolutions;
 
 public class LibSolutionsController implements ActionListener {
-	private LibSolutionsModel model;
+	private SolutionsDataTable model;
 	private PanelLibSolutions view;
 
-	public LibSolutionsController(LibSolutionsModel model) {
+	public LibSolutionsController(SolutionsDataTable model) {
 		this.model = model;
 		this.view = new PanelLibSolutions(model, this);
 	}

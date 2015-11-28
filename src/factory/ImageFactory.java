@@ -54,7 +54,6 @@ public class ImageFactory {
 	public static Icon getIcon(String path) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Icon icon = new ImageIcon(toolkit.getClass().getResource(path));
-		// ((ImageIcon) icon).getImage();
 		return icon;
 	}
 

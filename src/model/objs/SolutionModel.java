@@ -1,4 +1,4 @@
-package model;
+package model.objs;
 
 public class SolutionModel extends AbstracModelObject {
 	private long id;

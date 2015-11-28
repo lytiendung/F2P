@@ -1,9 +1,11 @@
-package model;
+package model.datatable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import model.objs.AbstracModelObject;
 
 public abstract class AbstractDataTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

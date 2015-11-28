@@ -1,4 +1,4 @@
-package model;
+package model.objs;
 
 import java.awt.Container;
 

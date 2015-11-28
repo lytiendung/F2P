@@ -11,17 +11,17 @@ import javax.swing.SwingUtilities;
 import org.busydialog.ui.BusyDialog;
 
 import factory.CommandFactory;
-import model.LoginModel;
-import view.LoginPanel;
+import model.objs.LoginModel;
+import view.PanelLogin;
 import view.MainFrame;
 
-public class LoginController implements ActionListener, FocusListener, ViewController {
+public class LoginController implements ActionListener, FocusListener, IView {
 	private LoginModel model;
-	private LoginPanel view;
+	private PanelLogin view;
 
 	public LoginController(LoginModel model) {
 		this.model = model;
-		this.view = new LoginPanel(this);
+		this.view = new PanelLogin(this);
 	}
 
 	@Override

@@ -20,7 +20,8 @@ import controller.LibSolutionsController;
 import factory.ButtonFactory;
 import factory.CommandFactory;
 import factory.ImageFactory;
-import model.LibSolutionsModel;
+import model.datatable.SolutionsDataTable;
+
 import javax.swing.border.TitledBorder;
 import java.awt.SystemColor;
 
@@ -28,7 +29,7 @@ public class PanelLibSolutions extends JPanel {
 	private static final long serialVersionUID = -2419640083464648171L;
 	private JXTable table;
 
-	public PanelLibSolutions(LibSolutionsModel model, LibSolutionsController controller) {
+	public PanelLibSolutions(SolutionsDataTable model, LibSolutionsController controller) {
 		setBorder(new TitledBorder(null, "Th\u01B0 vi\u1EC7n gi\u1EA3i ph\u00E1p", TitledBorder.LEADING,
 				TitledBorder.TOP, null, SystemColor.textHighlight));
 		setLayout(new BorderLayout(0, 0));
@@ -83,7 +84,7 @@ public class PanelLibSolutions extends JPanel {
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 
-		LibSolutionsModel model = new LibSolutionsModel();
+		SolutionsDataTable model = new SolutionsDataTable();
 		LibSolutionsController controller = new LibSolutionsController(model);
 
 		jframe.setContentPane(controller.getView());

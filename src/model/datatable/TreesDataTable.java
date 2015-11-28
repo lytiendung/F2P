@@ -1,13 +1,14 @@
-package model;
+package model.datatable;
 
 import java.util.Arrays;
 
 import dao.LibDao;
+import model.objs.TreeModel;
 
-public class LibTreesModel extends AbstractDataTable {
+public class TreesDataTable extends AbstractDataTable {
 	private static final long serialVersionUID = -1841929008517561740L;
 
-	public LibTreesModel() {
+	public TreesDataTable() {
 		super();
 		this.columnIdentifiers.addAll(Arrays.asList("Tên (vi)", "Tên (en)", "Tên (Latinh)", "Họ", "Quý hiếm"));
 	}

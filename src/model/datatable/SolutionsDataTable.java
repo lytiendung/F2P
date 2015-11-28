@@ -1,13 +1,14 @@
-package model;
+package model.datatable;
 
 import java.util.Arrays;
 
 import dao.LibDao;
+import model.objs.SolutionModel;
 
-public class LibSolutionsModel extends AbstractDataTable {
+public class SolutionsDataTable extends AbstractDataTable {
 	private static final long serialVersionUID = 1L;
 
-	public LibSolutionsModel() {
+	public SolutionsDataTable() {
 		super();
 		this.columnIdentifiers.addAll(Arrays.asList("Hành vi vi phạm", "Biện pháp khắc phục", "Địa điểm vi phạm"));
 	}

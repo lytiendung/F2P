@@ -1,36 +1,41 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.SystemColor;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import org.jdesktop.swingx.JXTable;
 
 import com.alee.laf.WebLookAndFeel;
-import com.alee.laf.text.WebTextField;
 import com.alee.laf.toolbar.WebToolBar;
 
 import controller.LibTreesController;
 import factory.ButtonFactory;
 import factory.CommandFactory;
 import factory.ImageFactory;
-import model.LibTreesModel;
+import factory.TableFactory;
+import model.datatable.TreesDataTable;
 
 public class PanelLibTrees extends JPanel {
 
 	private static final long serialVersionUID = -2419640083464648171L;
 	private JXTable table;
+	private JPopupMenu popupMenu;
 
-	public PanelLibTrees(LibTreesModel model, LibTreesController controller) {
+	public PanelLibTrees(TreesDataTable model, LibTreesController controller) {
+		createPopupMenu(controller);
+		init(model, controller);
+	}
+
+	private void init(TreesDataTable model, LibTreesController controller) {
 		setBorder(new TitledBorder(null, "Th\u01B0 vi\u1EC7n th\u1EF1c v\u1EADt", TitledBorder.LEADING,
 				TitledBorder.TOP, null, SystemColor.textHighlight));
 		setLayout(new BorderLayout(0, 0));
@@ -38,42 +43,11 @@ public class PanelLibTrees extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 
-		table = new JXTable(model);
-		table.setSurrendersFocusOnKeystroke(true);
-		table.setHorizontalScrollEnabled(true);
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setFillsViewportHeight(true);
+		table = TableFactory.createCustomTable(model, controller);
 		scrollPane.setViewportView(table);
 
-		// cell editor
-		WebTextField tmpTextfield = new WebTextField();
-		tmpTextfield.setDrawBorder(false);
-
-		DefaultCellEditor cellEditor = new DefaultCellEditor(tmpTextfield);
-
-		table.setDefaultEditor(String.class, cellEditor);
-
-		WebToolBar webToolBar = new WebToolBar();
-		webToolBar.setUndecorated(true);
-		webToolBar.setShadeWidth(0);
-		webToolBar.setSpacing(-2);
-		webToolBar.setOrientation(SwingConstants.VERTICAL);
-		webToolBar.setFloatable(false);
+		WebToolBar webToolBar = ButtonFactory.createLibWebToolBar(controller);
 		add(webToolBar, BorderLayout.EAST);
-
-		JButton btnNewRecord = ButtonFactory.createButtonToolBar("Thêm dòng mới", CommandFactory.ADD_CMD,
-				ImageFactory.getIcon(ImageFactory.NEW_ICON), controller, true);
-		webToolBar.add(btnNewRecord);
-
-		JButton btnDeleteRecord = ButtonFactory.createButtonToolBar("Xóa dòng đã chọn", CommandFactory.DELETE_CMD,
-				ImageFactory.getIcon(ImageFactory.DELETE_ICON), controller, true);
-		webToolBar.add(btnDeleteRecord);
-
-		JButton btnRefresh = ButtonFactory.createButtonToolBar("Tải lại dữ liệu", CommandFactory.RELOAD_CMD,
-				ImageFactory.getIcon(ImageFactory.REFRESH_ICON), controller, true);
-		webToolBar.add(btnRefresh);
-
 	}
 
 	public int[] getSelectedRows() {
@@ -83,6 +57,34 @@ public class PanelLibTrees extends JPanel {
 			realRow[i] = table.convertRowIndexToModel(selectedRow[i]);
 		}
 		return realRow;
+	}
+
+	private void createPopupMenu(LibTreesController controller) {
+		popupMenu = new JPopupMenu();
+
+		JMenuItem mntmThmTiKhon = new JMenuItem("Thêm dòng mới");
+		mntmThmTiKhon.setIcon(ImageFactory.getIcon(ImageFactory.NEW_ICON));
+		mntmThmTiKhon.setActionCommand(CommandFactory.ADD_CMD);
+		mntmThmTiKhon.addActionListener(controller);
+		popupMenu.add(mntmThmTiKhon);
+
+		popupMenu.addSeparator();
+
+		JMenuItem mnNotify = new JMenuItem("Xóa dòng đã chọn");
+		mnNotify.setIcon(ImageFactory.getIcon(ImageFactory.DELETE_ICON));
+		mnNotify.setActionCommand(CommandFactory.DELETE_CMD);
+		mnNotify.addActionListener(controller);
+		popupMenu.add(mnNotify);
+
+		JMenuItem mnDel = new JMenuItem("Tải lại dữ liệu");
+		mnDel.setIcon(ImageFactory.getIcon(ImageFactory.REFRESH_ICON));
+		mnDel.setActionCommand(CommandFactory.REFRESH_CMD);
+		mnDel.addActionListener(controller);
+		popupMenu.add(mnDel);
+	}
+
+	public void showPopup(Component component, int x, int y) {
+		popupMenu.show(component, x, y);
 	}
 
 	public static void main(String[] args) {
@@ -100,7 +102,7 @@ public class PanelLibTrees extends JPanel {
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 
-		LibTreesModel model = new LibTreesModel();
+		TreesDataTable model = new TreesDataTable();
 		LibTreesController controller = new LibTreesController(model);
 
 		jframe.setContentPane(controller.getView());

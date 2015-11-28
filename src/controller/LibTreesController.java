@@ -3,19 +3,21 @@ package controller;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Arrays;
 
 import factory.CommandFactory;
 import factory.MessageFactory;
-import model.LibTreesModel;
-import model.TreeModel;
+import model.datatable.TreesDataTable;
+import model.objs.TreeModel;
 import view.PanelLibTrees;
 
-public class LibTreesController implements ActionListener, ViewController {
-	private LibTreesModel model;
+public class LibTreesController implements ActionListener, MouseListener, IView {
+	private TreesDataTable model;
 	private PanelLibTrees view;
 
-	public LibTreesController(LibTreesModel model) {
+	public LibTreesController(TreesDataTable model) {
 		this.model = model;
 		this.view = new PanelLibTrees(model, this);
 	}
@@ -64,6 +66,34 @@ public class LibTreesController implements ActionListener, ViewController {
 	@Override
 	public Container getView() {
 		return view;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.isPopupTrigger()) {
+			view.showPopup(e.getComponent(), e.getX(), e.getY());
+		}
 	}
 
 }

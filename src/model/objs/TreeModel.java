@@ -1,4 +1,4 @@
-package model;
+package model.objs;
 
 public class TreeModel extends AbstracModelObject {
 	private long id;

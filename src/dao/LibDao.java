@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.SolutionModel;
-import model.TreeModel;
+import model.objs.SolutionModel;
+import model.objs.TreeModel;
 
 public class LibDao {
 

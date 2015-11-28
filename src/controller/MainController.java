@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import factory.CommandFactory;
 import view.MainFrame;
 
-public class MainController implements ViewController, ActionListener {
+public class MainController implements IView, ActionListener {
 	private MainFrame view;
 
 	public MainController() {

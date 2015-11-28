@@ -2,7 +2,7 @@ package controller;
 
 import java.awt.Container;
 
-public interface ViewController {
+public interface IView {
 
 	public Container getView();
 }

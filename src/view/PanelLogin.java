@@ -32,14 +32,14 @@ import factory.CommandFactory;
 import factory.ImageFactory;
 import java.awt.Insets;
 
-public class LoginPanel extends JPanel {
+public class PanelLogin extends JPanel {
 	private static final long serialVersionUID = -1952081005312416343L;
 	private WebTextField txtUser;
 	private WebPasswordField txtPass;
 	private JButton btnLoggin;
 	private JXHyperlink btnConfig;
 
-	public LoginPanel(final LoginController control) {
+	public PanelLogin(final LoginController control) {
 		setLayout(new BorderLayout(0, 0));
 
 		this.setName(CommandFactory.PANEL_LOGIN);
@@ -76,7 +76,7 @@ public class LoginPanel extends JPanel {
 		JLabel lblUser = new JLabel("Tài khoản");
 		panel_6.add(lblUser);
 		lblUser.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblUser.setIcon(new ImageIcon(LoginPanel.class.getResource("/images/user.png")));
+		lblUser.setIcon(new ImageIcon(PanelLogin.class.getResource("/images/user.png")));
 
 		txtUser = new WebTextField();
 		txtUser.setFieldMargin(new Insets(2, 5, 2, 2));
@@ -100,7 +100,7 @@ public class LoginPanel extends JPanel {
 		JLabel lblPass = new JLabel("Mật khẩu");
 		panel_7.add(lblPass);
 		lblPass.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPass.setIcon(new ImageIcon(LoginPanel.class.getResource("/images/key.png")));
+		lblPass.setIcon(new ImageIcon(PanelLogin.class.getResource("/images/key.png")));
 		lblPass.setPreferredSize(lblUser.getPreferredSize());
 
 		txtPass = new WebPasswordField();
@@ -128,7 +128,7 @@ public class LoginPanel extends JPanel {
 		btnLoggin.addActionListener(control);
 		btnLoggin.setFocusable(false);
 		btnLoggin.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnLoggin.setIcon(new ImageIcon(LoginPanel.class.getResource("/images/locked.png")));
+		btnLoggin.setIcon(new ImageIcon(PanelLogin.class.getResource("/images/locked.png")));
 
 		JButton btnExit = new JButton("Thoát");
 		panel_8.add(btnExit, "1, 4, right, default");
@@ -136,7 +136,7 @@ public class LoginPanel extends JPanel {
 		btnExit.setActionCommand(CommandFactory.EXIT_CMD);
 		btnExit.addActionListener(control);
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnExit.setIcon(new ImageIcon(LoginPanel.class.getResource("/images/cancel.png")));
+		btnExit.setIcon(new ImageIcon(PanelLogin.class.getResource("/images/cancel.png")));
 		btnExit.setPreferredSize(btnLoggin.getPreferredSize());
 
 		JSeparator separator = new JSeparator();

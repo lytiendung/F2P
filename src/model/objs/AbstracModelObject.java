@@ -1,4 +1,4 @@
-package model;
+package model.objs;
 
 public abstract class AbstracModelObject {
 

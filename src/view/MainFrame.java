@@ -2,6 +2,8 @@ package view;
 
 import java.awt.CardLayout;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,12 +13,14 @@ import controller.LibTreesController;
 import controller.LoginController;
 import controller.MainController;
 import factory.CommandFactory;
-import model.LibSolutionsModel;
-import model.LibTreesModel;
-import model.LoginModel;
+import model.datatable.SolutionsDataTable;
+import model.datatable.TreesDataTable;
+import model.objs.LoginModel;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 8720432252745326845L;
@@ -62,6 +66,40 @@ public class MainFrame extends JFrame {
 		mntmSolutionsLibrary.addActionListener(controll);
 		mntmSolutionsLibrary.setActionCommand(CommandFactory.SOLUTION_LIB_CMD);
 		mnFile.add(mntmSolutionsLibrary);
+
+		JSeparator separator = new JSeparator();
+		mnFile.add(separator);
+
+		// TODO test panels
+		JMenu mnTest = new JMenu("Test");
+		mnFile.add(mnTest);
+
+		JMenuItem mntmPanel = new JMenuItem("Panel001");
+		mntmPanel.setActionCommand("panel1");
+		mnTest.add(mntmPanel);
+
+		JMenuItem mntmPanel_1 = new JMenuItem("Panel002");
+		mntmPanel_1.setActionCommand("panel2");
+		mnTest.add(mntmPanel_1);
+
+		ActionListener action = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String cmd = e.getActionCommand();
+				switch (cmd) {
+				case "panel1":
+					doShowWorkspace("panel1");
+					break;
+				case "panel2":
+					doShowWorkspace("panel2");
+					break;
+				}
+			}
+		};
+
+		mntmPanel.addActionListener(action);
+		mntmPanel_1.addActionListener(action);
 	}
 
 	private void initWorkspaceView() {
@@ -75,14 +113,21 @@ public class MainFrame extends JFrame {
 		this.workspaceView.setLayout(workspaceCardLayout);
 
 		// library tree
-		LibTreesModel libTreesModel = new LibTreesModel();
+		TreesDataTable libTreesModel = new TreesDataTable();
 		LibTreesController libTreesControll = new LibTreesController(libTreesModel);
 		this.workspaceView.add(libTreesControll.getView(), CommandFactory.PANEL_LIB_TREE);
 
-		// library soludtion
-		LibSolutionsModel libSolModel = new LibSolutionsModel();
+		// library solution
+		SolutionsDataTable libSolModel = new SolutionsDataTable();
 		LibSolutionsController libSolutionsController = new LibSolutionsController(libSolModel);
 		this.workspaceView.add(libSolutionsController.getView(), CommandFactory.PANEL_LIB_SOLUTION);
+
+		// test panels
+		Panel001 panel1 = new Panel001();
+		this.workspaceView.add(panel1, "panel1");
+
+		Panel002 panel2 = new Panel002();
+		this.workspaceView.add(panel2, "panel2");
 
 		// add workspace view into main view
 		getContentPane().add(this.workspaceView, CommandFactory.PANEL_WORKSPACE);
