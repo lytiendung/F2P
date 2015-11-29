@@ -15,8 +15,7 @@ import org.jdesktop.swingx.JXTable;
 import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.toolbar.WebToolBar;
 
-import controller.LibSolutionsController;
-
+import controller.libs.LibSolutionsController;
 import factory.ButtonFactory;
 import factory.CommandFactory;
 import factory.ImageFactory;

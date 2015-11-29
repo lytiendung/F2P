@@ -30,8 +30,10 @@ public interface CommandFactory {
 	public static final String ANIMAL_LIB_CMD = "animallib";
 	public static final String SOLUTION_LIB_CMD = "solutionlib";
 
+	// panel command name
 	public static final String PANEL_LIB_TREE = "libTrees";
 	public static final String PANEL_WORKSPACE = "workspace";
 	public static final String PANEL_LOGIN = "plogin";
 	public static final String PANEL_LIB_SOLUTION = "libSolution";
+	public static final String PANEL_LIB_ANIMAL = "libanimal";
 }

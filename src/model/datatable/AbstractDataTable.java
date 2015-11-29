@@ -1,6 +1,7 @@
 package model.datatable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -8,15 +9,16 @@ import javax.swing.table.AbstractTableModel;
 import model.objs.AbstracModelObject;
 
 public abstract class AbstractDataTable extends AbstractTableModel {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4466359085856900985L;
 	protected List<Object> data;
 	protected ArrayList<String> columnIdentifiers;
 
-	public AbstractDataTable() {
-		this.data = new ArrayList<>();
-		this.columnIdentifiers = new ArrayList<>();
+	public AbstractDataTable(String[] colNames) {
+		this.columnIdentifiers = new ArrayList<>(Arrays.asList(colNames));
 		loadData();
 	}
+
+	protected abstract void loadData();
 
 	@Override
 	public abstract Object getValueAt(int rowIndex, int columnIndex);
@@ -48,8 +50,6 @@ public abstract class AbstractDataTable extends AbstractTableModel {
 	public boolean isEmpty() {
 		return getRowCount() == 0;
 	}
-
-	public abstract void loadData();
 
 	public abstract boolean clearData();
 

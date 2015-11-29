@@ -9,12 +9,11 @@ public class TreesDataTable extends AbstractDataTable {
 	private static final long serialVersionUID = -1841929008517561740L;
 
 	public TreesDataTable() {
-		super();
-		this.columnIdentifiers.addAll(Arrays.asList("Tên (vi)", "Tên (en)", "Tên (Latinh)", "Họ", "Quý hiếm"));
+		super(new String[] { "Tên (vi)", "Tên (en)", "Tên (Latinh)", "Họ", "Quý hiếm" });
 	}
 
 	@Override
-	public void loadData() {
+	protected void loadData() {
 		this.data = LibDao.loadLibTrees();
 	}
 

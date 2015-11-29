@@ -1,7 +1,5 @@
 package model.datatable;
 
-import java.util.Arrays;
-
 import dao.LibDao;
 import model.objs.SolutionModel;
 
@@ -9,12 +7,11 @@ public class SolutionsDataTable extends AbstractDataTable {
 	private static final long serialVersionUID = 1L;
 
 	public SolutionsDataTable() {
-		super();
-		this.columnIdentifiers.addAll(Arrays.asList("Hành vi vi phạm", "Biện pháp khắc phục", "Địa điểm vi phạm"));
+		super(new String[] { "Hành vi vi phạm", "Biện pháp khắc phục", "Địa điểm vi phạm" });
 	}
 
 	@Override
-	public void loadData() {
+	protected void loadData() {
 		this.data = LibDao.loadLibSolutions();
 	}
 

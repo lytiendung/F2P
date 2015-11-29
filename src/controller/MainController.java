@@ -28,6 +28,7 @@ public class MainController implements IView, ActionListener {
 			view.doShowWorkspace(CommandFactory.PANEL_LIB_TREE);
 			break;
 		case CommandFactory.ANIMAL_LIB_CMD:
+			view.doShowWorkspace(CommandFactory.PANEL_LIB_ANIMAL);
 			break;
 		case CommandFactory.SOLUTION_LIB_CMD:
 			view.doShowWorkspace(CommandFactory.PANEL_LIB_SOLUTION);

@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.LibSolutionsController;
-import controller.LibTreesController;
 import controller.LoginController;
 import controller.MainController;
+import controller.libs.LibAnimalsController;
+import controller.libs.LibSolutionsController;
+import controller.libs.LibTreesController;
 import factory.CommandFactory;
+import model.datatable.AnimalsDataTable;
 import model.datatable.SolutionsDataTable;
 import model.datatable.TreesDataTable;
 import model.objs.LoginModel;
@@ -117,6 +119,11 @@ public class MainFrame extends JFrame {
 		LibTreesController libTreesControll = new LibTreesController(libTreesModel);
 		this.workspaceView.add(libTreesControll.getView(), CommandFactory.PANEL_LIB_TREE);
 
+		// library animal
+		AnimalsDataTable libAnimalModel = new AnimalsDataTable();
+		LibAnimalsController libAnimalsController = new LibAnimalsController(libAnimalModel);
+		this.workspaceView.add(libAnimalsController.getView(), CommandFactory.PANEL_LIB_ANIMAL);
+		
 		// library solution
 		SolutionsDataTable libSolModel = new SolutionsDataTable();
 		LibSolutionsController libSolutionsController = new LibSolutionsController(libSolModel);

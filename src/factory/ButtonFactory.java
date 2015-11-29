@@ -9,7 +9,7 @@ import com.alee.global.StyleConstants;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.toolbar.WebToolBar;
 
-import controller.LibTreesController;
+import controller.libs.AbstractLibController;
 
 public class ButtonFactory {
 
@@ -24,7 +24,7 @@ public class ButtonFactory {
 		return webButton;
 	}
 
-	public static WebToolBar createLibWebToolBar(LibTreesController controller) {
+	public static WebToolBar createLibWebToolBar(AbstractLibController controller) {
 		WebToolBar webToolBar = new WebToolBar();
 		webToolBar.setUndecorated(true);
 		webToolBar.setShadeWidth(0);

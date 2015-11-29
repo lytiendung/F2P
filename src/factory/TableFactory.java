@@ -19,8 +19,8 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import com.alee.laf.text.WebTextField;
 
-import controller.LibTreesController;
 import controller.TableHeaderControlPopup;
+import controller.libs.AbstractLibController;
 import model.datatable.AbstractDataTable;
 
 public class TableFactory {
@@ -65,7 +65,7 @@ public class TableFactory {
 		}
 	}
 
-	public static JXTable createCustomTable(AbstractDataTable model, LibTreesController controller) {
+	public static JXTable createCustomTable(AbstractDataTable model, AbstractLibController controller) {
 		JXTable table = new JXTable(model);
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setHorizontalScrollEnabled(true);
@@ -87,4 +87,5 @@ public class TableFactory {
 
 		return table;
 	}
+
 }

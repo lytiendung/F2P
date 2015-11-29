@@ -1,10 +1,7 @@
-package controller;
+package controller.libs;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Arrays;
 
 import factory.CommandFactory;
@@ -13,17 +10,14 @@ import model.datatable.TreesDataTable;
 import model.objs.TreeModel;
 import view.PanelLibTrees;
 
-public class LibTreesController implements ActionListener, MouseListener, IView {
-	private TreesDataTable model;
-	private PanelLibTrees view;
+public class LibTreesController extends AbstractLibController {
 
 	public LibTreesController(TreesDataTable model) {
-		this.model = model;
-		this.view = new PanelLibTrees(model, this);
+		super(model);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	protected void doAction(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
 		case CommandFactory.ADD_CMD:
@@ -64,33 +58,12 @@ public class LibTreesController implements ActionListener, MouseListener, IView 
 	}
 
 	@Override
-	public Container getView() {
-		return view;
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+	protected void initView() {
+		this.view = new PanelLibTrees((TreesDataTable) model, this);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if (e.isPopupTrigger()) {
 			view.showPopup(e.getComponent(), e.getX(), e.getY());
 		}
