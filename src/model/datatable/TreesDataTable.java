@@ -130,7 +130,7 @@ public class TreesDataTable extends AbstractDataTable {
 			result = clearData();
 			System.out.println("result of clear action: " + result);
 		} else {
-			if (LibDao.deleteRecordTreeTable(rowListToIdList(rows))) {
+			if (LibDao.deleteRecordTreesTable(rowListToIdList(rows))) {
 				Arrays.sort(rows);
 				for (int i = rows.length - 1; i > -1; i--)
 					data.remove(rows[i]);

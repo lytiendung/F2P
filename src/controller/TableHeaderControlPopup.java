@@ -36,6 +36,11 @@ public class TableHeaderControlPopup extends MouseAdapter implements ActionListe
 
 		popupMenu.addSeparator();
 
+		JMenuItem mntmReset = new JMenuItem("Bỏ sắp xếp dữ liệu cột");
+		mntmReset.setActionCommand(CommandFactory.RESET_TABLE_SORT_CMD);
+		mntmReset.addActionListener(this);
+		popupMenu.add(mntmReset);
+
 		JMenuItem mntmngXut = new JMenuItem("Thu gọn cột đang chọn");
 		mntmngXut.setActionCommand(CommandFactory.PACK_CURRENT_COL_CMD);
 		mntmngXut.addActionListener(this);
@@ -68,6 +73,9 @@ public class TableHeaderControlPopup extends MouseAdapter implements ActionListe
 			break;
 		case CommandFactory.PACK_ALL_COL_CMD:
 			table.packAll();
+			break;
+		case CommandFactory.RESET_TABLE_SORT_CMD:
+			table.resetSortOrder();
 			break;
 		}
 	}

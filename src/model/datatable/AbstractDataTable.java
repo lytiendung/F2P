@@ -74,4 +74,6 @@ public abstract class AbstractDataTable extends AbstractTableModel {
 		return data.get(row);
 	}
 
+	protected abstract int[] rowListToIdList(int[] rows);
+
 }

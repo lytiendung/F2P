@@ -20,6 +20,7 @@ public interface CommandFactory {
 	public static final String BACK_CMD = "bak";
 	public static final String CELL_CHECKBOX_CMD = "ccb";
 	public static final String LOGIN_CMD = "login";
+	public static final String RESET_TABLE_SORT_CMD = "rtso";
 
 	public static final String HOR_SCROLL_CMD = "hscroll";
 	public static final String PACK_CURRENT_COL_CMD = "packcol";

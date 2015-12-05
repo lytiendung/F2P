@@ -2,33 +2,31 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
+import java.awt.SystemColor;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-
-import org.jdesktop.swingx.JXTable;
+import javax.swing.border.TitledBorder;
 
 import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.toolbar.WebToolBar;
 
+import controller.libs.AbstractLibController;
 import controller.libs.LibSolutionsController;
 import factory.ButtonFactory;
-import factory.CommandFactory;
-import factory.ImageFactory;
+import factory.TableFactory;
+import model.datatable.AbstractDataTable;
 import model.datatable.SolutionsDataTable;
 
-import javax.swing.border.TitledBorder;
-import java.awt.SystemColor;
+public class PanelLibSolutions extends AbstractPanelPopup {
+	private static final long serialVersionUID = 8715262162694432105L;
 
-public class PanelLibSolutions extends JPanel {
-	private static final long serialVersionUID = -2419640083464648171L;
-	private JXTable table;
+	public PanelLibSolutions(AbstractDataTable model, AbstractLibController controller) {
+		super(model, controller);
+	}
 
-	public PanelLibSolutions(SolutionsDataTable model, LibSolutionsController controller) {
+	@Override
+	protected void init(AbstractDataTable model, AbstractLibController controller) {
 		setBorder(new TitledBorder(null, "Th\u01B0 vi\u1EC7n gi\u1EA3i ph\u00E1p", TitledBorder.LEADING,
 				TitledBorder.TOP, null, SystemColor.textHighlight));
 		setLayout(new BorderLayout(0, 0));
@@ -36,43 +34,11 @@ public class PanelLibSolutions extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 
-		table = new JXTable(model);
-		table.setSurrendersFocusOnKeystroke(true);
-		table.setHorizontalScrollEnabled(true);
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setFillsViewportHeight(true);
+		table = TableFactory.createCustomTable(model, controller);
 		scrollPane.setViewportView(table);
 
-		WebToolBar webToolBar = new WebToolBar();
-		webToolBar.setUndecorated(true);
-		webToolBar.setShadeWidth(0);
-		webToolBar.setSpacing(-2);
-		webToolBar.setOrientation(SwingConstants.VERTICAL);
-		webToolBar.setFloatable(false);
+		WebToolBar webToolBar = ButtonFactory.createLibWebToolBar(controller);
 		add(webToolBar, BorderLayout.EAST);
-
-		JButton btnNewRecord = ButtonFactory.createButtonToolBar("Thêm dòng mới", CommandFactory.ADD_CMD,
-				ImageFactory.getIcon(ImageFactory.NEW_ICON), controller, true);
-		webToolBar.add(btnNewRecord);
-
-		JButton btnDeleteRecord = ButtonFactory.createButtonToolBar("Xóa dòng đã chọn", CommandFactory.DELETE_CMD,
-				ImageFactory.getIcon(ImageFactory.DELETE_ICON), controller, true);
-		webToolBar.add(btnDeleteRecord);
-
-		JButton btnRefresh = ButtonFactory.createButtonToolBar("Tải lại dữ liệu", CommandFactory.RELOAD_CMD,
-				ImageFactory.getIcon(ImageFactory.REFRESH_ICON), controller, true);
-		webToolBar.add(btnRefresh);
-
-	}
-
-	public int[] getSelectedRows() {
-		int[] selectedRow = table.getSelectedRows();
-		int[] realRow = new int[table.getSelectedRowCount()];
-		for (int i = 0; i < realRow.length; i++) {
-			realRow[i] = table.convertRowIndexToModel(selectedRow[i]);
-		}
-		return realRow;
 	}
 
 	public static void main(String[] args) {
@@ -90,5 +56,4 @@ public class PanelLibSolutions extends JPanel {
 		jframe.setSize(900, 400);
 		jframe.setVisible(true);
 	}
-
 }
