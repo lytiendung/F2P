@@ -24,6 +24,16 @@ public class ButtonFactory {
 		return webButton;
 	}
 
+	public static WebButton createButtonToolBar(String txt, String toolTipText, String actionCommand, Icon icon,
+			ActionListener action) {
+		WebButton webButton = new WebButton(txt, icon, action);
+		webButton.setActionCommand(actionCommand);
+		webButton.setToolTipText(toolTipText);
+		webButton.setRound(StyleConstants.smallRound);
+
+		return webButton;
+	}
+
 	public static WebToolBar createLibWebToolBar(AbstractLibController controller) {
 		WebToolBar webToolBar = new WebToolBar();
 		webToolBar.setUndecorated(true);

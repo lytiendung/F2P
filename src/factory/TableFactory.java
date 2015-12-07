@@ -24,8 +24,8 @@ import com.alee.laf.combobox.WebComboBox;
 import com.alee.laf.text.WebTextField;
 
 import controller.TableHeaderControlPopup;
+import controller.fragments.AbstractFragmentTableController;
 import controller.libs.AbstractLibController;
-import controller.violation.AbstractFragmentTableController;
 import model.datatable.AbstractDataTable;
 
 public class TableFactory {

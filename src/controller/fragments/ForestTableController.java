@@ -1,4 +1,4 @@
-package controller.violation;
+package controller.fragments;
 
 import model.datatable.AbstractDataTable;
 import view.fragments.ForestTableFragment;

@@ -6,11 +6,11 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.objs.AbstracModelObject;
+import model.objs.AbstractModelObject;
 
 public abstract class AbstractDataTable extends AbstractTableModel {
 	private static final long serialVersionUID = 4466359085856900985L;
-	protected List<Object> data;
+	protected List<AbstractModelObject> data;
 	protected ArrayList<String> columnIdentifiers;
 
 	public AbstractDataTable(String[] colNames) {
@@ -59,14 +59,12 @@ public abstract class AbstractDataTable extends AbstractTableModel {
 	}
 
 	public boolean hasNullRow() {
-		return (!isEmpty()) ? ((AbstracModelObject) data.get(this.getRowCount() - 1)).isEmptyObj() : false;
+		return (!isEmpty()) ? ((AbstractModelObject) data.get(this.getRowCount() - 1)).isEmptyObj() : false;
 	}
 
 	public abstract boolean addRow();
 
 	public abstract boolean deleteRow(int[] rows);
-
-	public abstract boolean saveOrUpdateRow(int row);
 
 	public abstract void autoSave(int row);
 
@@ -74,6 +72,12 @@ public abstract class AbstractDataTable extends AbstractTableModel {
 		return data.get(row);
 	}
 
-	protected abstract int[] rowListToIdList(int[] rows);
+	protected long[] rowListToIdList(int[] rows) {
+		long[] ids = new long[rows.length];
+		for (int i = 0; i < rows.length; i++) {
+			ids[i] = data.get(rows[i]).getId();
+		}
+		return ids;
+	}
 
 }

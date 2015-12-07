@@ -7,7 +7,7 @@ import javax.swing.JPopupMenu;
 
 import org.jdesktop.swingx.JXTable;
 
-import controller.violation.AbstractFragmentTableController;
+import controller.fragments.AbstractFragmentTableController;
 import factory.CommandFactory;
 import factory.ImageFactory;
 import model.datatable.AbstractDataTable;

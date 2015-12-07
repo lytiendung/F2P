@@ -85,19 +85,6 @@ public class SolutionsDataTable extends AbstractDataTable {
 		return result;
 	}
 
-	protected int[] rowListToIdList(int[] rows) {
-		int[] ids = new int[rows.length];
-		for (int i = 0; i < rows.length; i++) {
-			ids[i] = (int) ((SolutionModel) data.get(rows[i])).getId();
-		}
-		return ids;
-	}
-
-	@Override
-	public boolean saveOrUpdateRow(int row) {
-		return LibDao.saveOrUpdateSolution((SolutionModel) data.get(row));
-	}
-
 	@Override
 	public void autoSave(int row) {
 		SolutionModel sol = (SolutionModel) data.get(row);

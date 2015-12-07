@@ -1,7 +1,6 @@
 package model.objs;
 
-public class ForestModel extends AbstracModelObject {
-	private long id;
+public class ForestModel extends AbstractModelObject {
 	private String kindCQL;
 	private String nameManger;
 	private String forestType;
@@ -25,14 +24,6 @@ public class ForestModel extends AbstracModelObject {
 		this.forestType = forestType;
 		this.plantation = plantation;
 		this.naturalForest = naturalForest;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getKindCQL() {

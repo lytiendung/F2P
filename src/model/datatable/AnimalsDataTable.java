@@ -146,24 +146,10 @@ public class AnimalsDataTable extends AbstractDataTable {
 	}
 
 	@Override
-	public boolean saveOrUpdateRow(int row) {
-		return LibDao.saveOrUpdateAnimal((AnimalModel) data.get(row));
-	}
-
-	@Override
 	public void autoSave(int row) {
 		AnimalModel ani = (AnimalModel) data.get(row);
 		if (!ani.isEmptyObj())
 			LibDao.saveOrUpdateAnimal(ani);
-	}
-
-	@Override
-	protected int[] rowListToIdList(int[] rows) {
-		int[] ids = new int[rows.length];
-		for (int i = 0; i < rows.length; i++) {
-			ids[i] = (int) ((AnimalModel) data.get(rows[i])).getId();
-		}
-		return ids;
 	}
 
 }

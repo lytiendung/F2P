@@ -9,12 +9,14 @@ public class MessageFactory {
 
 	public static final String[] OK_OPTIONS = { "Đóng" };
 	public static final String[] OK_CANCEL_OPTION = { "Đồng ý", "Hủy bỏ" };
+	public static final String[] CLEAR_CANCEL_OPTION = { "Làm sạch", "Đóng" };
 	public static final String[] NUMBER_CELL_EDITOR_OPTION = { "Sửa lại", "Hoàn tác" };
 
 	public static final int OK_OPTION = 0;
 	public static final int CANCEL_OPTION = 1;
 	public static final int EDIT_OPTION = 0;
 	public static final int REVERT_OPTION = 1;
+	public static final int CLEAR_OPTION = 0;
 
 	public static final int ERROR_MESSAGE = 0;
 	public static final int INFORMATION_MESSAGE = 1;
@@ -26,8 +28,8 @@ public class MessageFactory {
 		return SwingUtilities.windowForComponent(c);
 	}
 
-	public static int showMessageDialog(Component parentComponent, Object messenger, String title, int optionType) {
-		return JOptionPane.showOptionDialog(parentComponent, messenger, title, JOptionPane.CLOSED_OPTION, optionType,
+	public static int showMessageDialog(Component parentComponent, Object messenger, String title, int messageType) {
+		return JOptionPane.showOptionDialog(parentComponent, messenger, title, JOptionPane.CLOSED_OPTION, messageType,
 				null, OK_OPTIONS, OK_OPTION);
 	}
 
@@ -41,9 +43,15 @@ public class MessageFactory {
 				null, OK_CANCEL_OPTION, OK_CANCEL_OPTION[initialValue]);
 	}
 
+	public static int showQuestionDilog(Component parentComponent, Object messenger, String title, int messegeType,
+			String[] options, int initialValue) {
+		return JOptionPane.showOptionDialog(parentComponent, messenger, title, JOptionPane.YES_NO_OPTION, messegeType,
+				null, options, options[initialValue]);
+	}
+
 	public static void main(String[] args) {
 		MessageFactory.showQuestionDialog(null,
 				"Tất cả dữ liệu đã nhập hiện tại sẽ bị mất\nBạn có muốn làm mới danh sách dữ liệu?", "Xác nhận",
-				MessageFactory.WARNING_MESSAGE);
+				MessageFactory.QUESTION_MESSAGE);
 	}
 }

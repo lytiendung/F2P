@@ -21,15 +21,11 @@ public interface CommandFactory {
 	public static final String CELL_CHECKBOX_CMD = "ccb";
 	public static final String LOGIN_CMD = "login";
 	public static final String RESET_TABLE_SORT_CMD = "rtso";
+	public static final String RESET_CMD = "reset";
 
 	public static final String HOR_SCROLL_CMD = "hscroll";
 	public static final String PACK_CURRENT_COL_CMD = "packcol";
 	public static final String PACK_ALL_COL_CMD = "packall";
-
-	// menu bar command
-	public static final String TREE_LIB_CMD = "treelib";
-	public static final String ANIMAL_LIB_CMD = "animallib";
-	public static final String SOLUTION_LIB_CMD = "solutionlib";
 
 	// panel command name
 	public static final String PANEL_LIB_TREE = "libTrees";
@@ -37,4 +33,5 @@ public interface CommandFactory {
 	public static final String PANEL_LOGIN = "plogin";
 	public static final String PANEL_LIB_SOLUTION = "libSolution";
 	public static final String PANEL_LIB_ANIMAL = "libanimal";
+	public static final String PANEL_VIOLATION = "viopanel";
 }

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import controller.LoginController;
 import controller.MainController;
+import controller.ViolationController;
 import controller.libs.LibAnimalsController;
 import controller.libs.LibSolutionsController;
 import controller.libs.LibTreesController;
@@ -17,6 +18,7 @@ import factory.CommandFactory;
 import model.datatable.AnimalsDataTable;
 import model.datatable.SolutionsDataTable;
 import model.datatable.TreesDataTable;
+import model.main.ViolationCore;
 import model.objs.LoginModel;
 
 import javax.swing.JMenuBar;
@@ -56,21 +58,29 @@ public class MainFrame extends JFrame {
 
 		JMenuItem mntmTreesLibrary = new JMenuItem("Trees library");
 		mntmTreesLibrary.addActionListener(controll);
-		mntmTreesLibrary.setActionCommand(CommandFactory.TREE_LIB_CMD);
+		mntmTreesLibrary.setActionCommand(CommandFactory.PANEL_LIB_TREE);
 		mnFile.add(mntmTreesLibrary);
 
 		JMenuItem mntmAnimalsLibrary = new JMenuItem("Animals library");
 		mntmAnimalsLibrary.addActionListener(controll);
-		mntmAnimalsLibrary.setActionCommand(CommandFactory.ANIMAL_LIB_CMD);
+		mntmAnimalsLibrary.setActionCommand(CommandFactory.PANEL_LIB_ANIMAL);
 		mnFile.add(mntmAnimalsLibrary);
 
 		JMenuItem mntmSolutionsLibrary = new JMenuItem("Solutions library");
 		mntmSolutionsLibrary.addActionListener(controll);
-		mntmSolutionsLibrary.setActionCommand(CommandFactory.SOLUTION_LIB_CMD);
+		mntmSolutionsLibrary.setActionCommand(CommandFactory.PANEL_LIB_SOLUTION);
 		mnFile.add(mntmSolutionsLibrary);
 
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
+
+		JMenuItem mntmViol = new JMenuItem("Nhập biên bản vi phạm");
+		mntmViol.addActionListener(controll);
+		mntmViol.setActionCommand(CommandFactory.PANEL_VIOLATION);
+		mnFile.add(mntmViol);
+
+		JSeparator separator1 = new JSeparator();
+		mnFile.add(separator1);
 
 		// TODO test panels
 		JMenu mnTest = new JMenu("Test");
@@ -114,6 +124,11 @@ public class MainFrame extends JFrame {
 		this.workspaceView = new JPanel();
 		this.workspaceView.setLayout(workspaceCardLayout);
 
+		// violation panel
+		ViolationCore vioModel = new ViolationCore();
+		ViolationController vioControll = new ViolationController(vioModel);
+		this.workspaceView.add(vioControll.getView(), CommandFactory.PANEL_VIOLATION);
+
 		// library tree
 		TreesDataTable libTreesModel = new TreesDataTable();
 		LibTreesController libTreesControll = new LibTreesController(libTreesModel);
@@ -123,7 +138,7 @@ public class MainFrame extends JFrame {
 		AnimalsDataTable libAnimalModel = new AnimalsDataTable();
 		LibAnimalsController libAnimalsController = new LibAnimalsController(libAnimalModel);
 		this.workspaceView.add(libAnimalsController.getView(), CommandFactory.PANEL_LIB_ANIMAL);
-		
+
 		// library solution
 		SolutionsDataTable libSolModel = new SolutionsDataTable();
 		LibSolutionsController libSolutionsController = new LibSolutionsController(libSolModel);

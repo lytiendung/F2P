@@ -72,12 +72,4 @@ public class DBConnection {
 		return getInstall().getConnection();
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException {
-		try {
-			DBConnection.DBConnect();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

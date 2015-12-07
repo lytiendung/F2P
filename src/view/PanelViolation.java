@@ -9,6 +9,7 @@ import java.awt.SystemColor;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,22 +21,48 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.alee.extended.date.WebDateField;
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.button.WebButton;
+import com.alee.laf.toolbar.ToolbarStyle;
+import com.alee.laf.toolbar.WebToolBar;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
-import controller.violation.AbstractFragmentTableController;
-import controller.violation.ForestTableController;
+import controller.ViolationController;
+import controller.fragments.AbstractFragmentTableController;
+import controller.fragments.ForestTableController;
+import dao.RootDao;
+import dao.ViolationDao;
+import extend.IOFile;
+import extend.IOFile.ErrorType;
+import factory.ButtonFactory;
+import factory.CommandFactory;
+import factory.ImageFactory;
 import model.datatable.ForestDataTable;
+import model.main.ViolationCore;
+import model.objs.ViolationModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class PanelViolation extends JPanel {
 	private static final long serialVersionUID = -4090572103960843279L;
-	private JScrollPane scrollPeople;
-	private JPanel panelPeople;
+	private JTextField txtUnit;
+	private JCheckBox ckbOwner;
+	private JCheckBox ckbHandling;
+	private JTextField txtNumberReport;
+	private WebDateField dateDayReport;
+	private JTextField txtNumberRule;
+	private WebDateField dateDayRule;
+	private JTextField txtLocaltion;
+	private JComboBox<String> cbxMajorPenalty;
+	private JComboBox<String> cbxObject;
+	private JComboBox<String> cbxHandlingAgency;
+	private JFormattedTextField txtFines;
+	private JFormattedTextField txtAlreadySumitted;
 
-	public PanelViolation() {
+	public PanelViolation(ViolationCore model, ViolationController controller) {
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panelViolation = new JPanel();
@@ -57,27 +84,31 @@ public class PanelViolation extends JPanel {
 		JLabel lblTnnV = new JLabel("Tên đơn vị");
 		panelViolation.add(lblTnnV, "1, 1");
 
-		JTextField textField = new JTextField();
-		panelViolation.add(textField, "3, 1");
-		textField.setColumns(10);
+		txtUnit = new JTextField();
+		txtUnit.addActionListener(controller);
+		txtUnit.addFocusListener(controller);
+		panelViolation.add(txtUnit, "3, 1");
 
 		JPanel panel_2 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
 		flowLayout.setVgap(0);
-		panelViolation.add(panel_2, "5, 1, 5, 1, left, fill");
+		panelViolation.add(panel_2, "5, 1, 5, 1, left, center");
 
-		JCheckBox chckbxCCh = new JCheckBox("Có chủ");
-		panel_2.add(chckbxCCh);
+		ckbOwner = new JCheckBox("Có chủ");
+		ckbOwner.addActionListener(controller);
+		panel_2.add(ckbOwner);
 
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Xử lý hình sự");
-		panel_2.add(chckbxNewCheckBox);
+		ckbHandling = new JCheckBox("Xử lý hình sự");
+		ckbHandling.addActionListener(controller);
+		panel_2.add(ckbHandling);
 
 		JLabel lblSBb = new JLabel("Số biên bản");
 		panelViolation.add(lblSBb, "1, 3");
 
-		JTextField textField_1 = new JTextField();
-		panelViolation.add(textField_1, "3, 3");
-		textField_1.setColumns(10);
+		txtNumberReport = new JTextField();
+		txtNumberReport.addActionListener(controller);
+		txtNumberReport.addFocusListener(controller);
+		panelViolation.add(txtNumberReport, "3, 3");
 
 		JLabel lblbbvphc = new JLabel("/BB-VPHC");
 		panelViolation.add(lblbbvphc, "5, 3");
@@ -85,16 +116,19 @@ public class PanelViolation extends JPanel {
 		JLabel lblNgyBb = new JLabel("Ngày lập biên bản");
 		panelViolation.add(lblNgyBb, "7, 3, right, default");
 
-		JTextField textField_4 = new JTextField();
-		panelViolation.add(textField_4, "9, 3");
-		textField_4.setColumns(10);
+		dateDayReport = new WebDateField();
+		dateDayReport.setDateFormat(RootDao.DATE_FORMAT_USER);
+		dateDayReport.addActionListener(controller);
+		dateDayReport.addFocusListener(controller);
+		panelViolation.add(dateDayReport, "9, 3");
 
 		JLabel lblSQ = new JLabel("Số quyết định");
 		panelViolation.add(lblSQ, "1, 5");
 
-		JTextField textField_2 = new JTextField();
-		panelViolation.add(textField_2, "3, 5");
-		textField_2.setColumns(10);
+		txtNumberRule = new JTextField();
+		txtNumberRule.addActionListener(controller);
+		txtNumberRule.addFocusListener(controller);
+		panelViolation.add(txtNumberRule, "3, 5");
 
 		JLabel lblQ = new JLabel("/QĐ-TTTVPT");
 		panelViolation.add(lblQ, "5, 5");
@@ -102,34 +136,40 @@ public class PanelViolation extends JPanel {
 		JLabel lblNgyQ = new JLabel("Ngày quyết định");
 		panelViolation.add(lblNgyQ, "7, 5, right, default");
 
-		JTextField textField_5 = new JTextField();
-		panelViolation.add(textField_5, "9, 5");
-		textField_5.setColumns(10);
+		dateDayRule = new WebDateField();
+		dateDayRule.setDateFormat(RootDao.DATE_FORMAT_USER);
+		dateDayRule.addActionListener(controller);
+		dateDayRule.addFocusListener(controller);
+		panelViolation.add(dateDayRule, "9, 5");
 
 		JLabel lblaimVp = new JLabel("Địa điểm VP");
 		panelViolation.add(lblaimVp, "1, 7");
 
-		JTextField textField_3 = new JTextField();
-		panelViolation.add(textField_3, "3, 7, 7, 1");
-		textField_3.setColumns(10);
+		txtLocaltion = new JTextField();
+		txtLocaltion.addActionListener(controller);
+		txtLocaltion.addFocusListener(controller);
+		panelViolation.add(txtLocaltion, "3, 7, 7, 1");
 
 		JLabel lblPhtChnh = new JLabel("Phạt chính");
 		panelViolation.add(lblPhtChnh, "1, 9");
 
-		JComboBox<String> comboBox_1 = new JComboBox<>();
-		panelViolation.add(comboBox_1, "3, 9, 7, 1");
+		cbxMajorPenalty = new JComboBox<>(new String[] { "Phạt tiền", "Cảnh cáo" });
+		// cbxMajorPenalty.addActionListener(controller);
+		panelViolation.add(cbxMajorPenalty, "3, 9, 7, 1");
 
 		JLabel lbltngVp = new JLabel("Đ.tượng VP");
 		panelViolation.add(lbltngVp, "1, 11");
 
-		JComboBox<String> comboBox = new JComboBox<>();
-		panelViolation.add(comboBox, "3, 11, 7, 1");
+		cbxObject = new JComboBox<>(new String[] { "Tổ chức", "Cá nhân" });
+		panelViolation.add(cbxObject, "3, 11, 7, 1");
 
 		JLabel lblCQuanX = new JLabel("Cơ quan xử lý");
 		panelViolation.add(lblCQuanX, "1, 13");
 
-		JComboBox<String> comboBox_2 = new JComboBox<>();
-		panelViolation.add(comboBox_2, "3, 13, 7, 1");
+		cbxHandlingAgency = new JComboBox<>();
+		cbxHandlingAgency.setModel(new DefaultComboBoxModel<String>(new String[] { "Hạt Kiểm lâm", "Đội cơ động",
+				"Trạm Kiểm lâm", "Chi cục Kiểm lâm", "UBND Xã", "UBND Huyện", "UBND Tỉnh" }));
+		panelViolation.add(cbxHandlingAgency, "3, 13, 7, 1");
 
 		JLabel lblTinPht = new JLabel("Tiền phạt");
 		panelViolation.add(lblTinPht, "1, 15");
@@ -141,9 +181,10 @@ public class PanelViolation extends JPanel {
 				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC, ColumnSpec.decode("default:grow"), FormSpecs.DEFAULT_COLSPEC, },
 				new RowSpec[] { FormSpecs.DEFAULT_ROWSPEC, }));
 
-		JTextField textField_10 = new JTextField();
-		panel_3.add(textField_10, "1, 1, fill, default");
-		textField_10.setColumns(10);
+		txtFines = new JFormattedTextField();
+		txtFines.addActionListener(controller);
+		txtFines.addFocusListener(controller);
+		panel_3.add(txtFines, "1, 1, fill, default");
 
 		JLabel lblng = new JLabel("(đồng)");
 		lblng.setFont(new Font("Tahoma", Font.ITALIC, 11));
@@ -152,9 +193,10 @@ public class PanelViolation extends JPanel {
 		JLabel lblNp = new JLabel("Đã nộp");
 		panel_3.add(lblNp, "4, 1, right, default");
 
-		JTextField textField_9 = new JTextField();
-		panel_3.add(textField_9, "6, 1, fill, default");
-		textField_9.setColumns(10);
+		txtAlreadySumitted = new JFormattedTextField();
+		txtAlreadySumitted.addActionListener(controller);
+		txtAlreadySumitted.addFocusListener(controller);
+		panel_3.add(txtAlreadySumitted, "6, 1, fill, default");
 
 		JLabel lblng_1 = new JLabel("(đồng)");
 		lblng_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
@@ -220,12 +262,12 @@ public class PanelViolation extends JPanel {
 		splitPane_4.setResizeWeight(0.5);
 		splitPane_1.setRightComponent(splitPane_4);
 
-		panelPeople = new JPanel();
+		JPanel panelPeople = new JPanel();
 		panelPeople.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
 				"Ng\u01B0\u1EDDi vi ph\u1EA1m", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(51, 153, 255)));
 		panelPeople.setLayout(new BorderLayout(0, 0));
 
-		scrollPeople = new JScrollPane();
+		JScrollPane scrollPeople = new JScrollPane();
 		panelPeople.add(scrollPeople, BorderLayout.CENTER);
 
 		JTable tablePeople = new JTable();
@@ -272,9 +314,8 @@ public class PanelViolation extends JPanel {
 		JScrollPane scrollForest = new JScrollPane();
 		panelForest.add(scrollForest);
 
-		ForestDataTable forestDataTable = new ForestDataTable(
-				new String[] { "Lo\u1EA1i CQL", "T\u00EAn ch\u1EE7 qu\u1EA3n", "Lo\u1EA1i r\u1EEBng",
-						"R\u1EEBng tr\u1ED3ng (m2)", "R\u1EEBng t\u1EF1 nhi\u00EAn (m2)" });
+		ForestDataTable forestDataTable = new ForestDataTable();
+		model.registerObserver(forestDataTable);
 		AbstractFragmentTableController forestController = new ForestTableController(forestDataTable);
 
 		scrollForest.setViewportView(forestController.getView());
@@ -300,6 +341,88 @@ public class PanelViolation extends JPanel {
 		scrollWood.setViewportView(tableWood);
 		splitPane_2.setRightComponent(panelWood);
 
+		JPanel panelToolBar = new JPanel();
+		add(panelToolBar, BorderLayout.SOUTH);
+		panelToolBar.setLayout(new BorderLayout(0, 0));
+
+		WebToolBar webToolBar = new WebToolBar();
+		webToolBar.setFloatable(false);
+		webToolBar.setToolbarStyle(ToolbarStyle.attached);
+		webToolBar.setUndecorated(true);
+		panelToolBar.add(webToolBar, BorderLayout.EAST);
+
+		WebButton btnNew = ButtonFactory.createButtonToolBar("Tạo mới", "Tạo biên bản mới", CommandFactory.ADD_CMD,
+				ImageFactory.getIcon(ImageFactory.NEW_ICON), controller);
+		webToolBar.add(btnNew);
+
+		WebButton btnSave = ButtonFactory.createButtonToolBar("Lưu lại", "Lưu biên bản hiện tại",
+				CommandFactory.SAVE_CMD, ImageFactory.getIcon(ImageFactory.SAVE_ICON), controller);
+		webToolBar.add(btnSave);
+
+		WebButton btnReset = ButtonFactory.createButtonToolBar("Làm sạch", "Xóa các dữ liệu đã nhập",
+				CommandFactory.RESET_CMD, ImageFactory.getIcon(ImageFactory.REFRESH_BILL_ICON), controller);
+		webToolBar.add(btnReset);
+
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEADING);
+		panelToolBar.add(panel_1, BorderLayout.CENTER);
+
+		JLabel lblTrngThi = new JLabel("Trạng thái:");
+		panel_1.add(lblTrngThi);
+
+		JLabel lblNhpLiu = new JLabel("nhập liệu");
+		panel_1.add(lblNhpLiu);
+
+		updateModelToView();
+
+		cbxMajorPenalty.addActionListener(controller);
+		cbxObject.addActionListener(controller);
+		cbxHandlingAgency.addActionListener(controller);
+	}
+
+	public void updateModelToView() {
+		ViolationModel vio = ViolationDao.getModel();
+
+		this.txtUnit.setText(vio.getUnit());
+		this.ckbOwner.setSelected(vio.isOwer());
+		this.ckbHandling.setSelected(vio.isHandling());
+		this.txtNumberReport.setText(vio.getNumberReport());
+		this.dateDayReport.setDate(vio.getDayReport());
+		this.txtNumberRule.setText(vio.getNumberRule());
+		this.dateDayRule.setDate(vio.getDayRule());
+		this.txtLocaltion.setText(vio.getLocation());
+		this.cbxMajorPenalty.setSelectedItem(vio.getMajorPenalty());
+		this.cbxObject.setSelectedItem(vio.getObject());
+		this.cbxHandlingAgency.setSelectedItem(vio.getHandlingAgency());
+		this.txtFines.setText(vio.getFines() + "");
+		this.txtAlreadySumitted.setText(vio.getAlreadySubmmited() + "");
+	}
+
+	public boolean updateViewToModel() {
+		ViolationModel vio = ViolationDao.getModel();
+		ViolationModel tmpModel = vio.clone();
+
+		vio.setUnit(txtUnit.getText());
+		vio.setOwer(ckbOwner.isSelected());
+		vio.setHandling(ckbHandling.isSelected());
+		vio.setNumberReport(txtNumberReport.getText());
+		vio.setDayReport(dateDayReport.getDate());
+		vio.setNumberRule(txtNumberRule.getText());
+		vio.setDayRule(dateDayRule.getDate());
+		vio.setLocation(txtLocaltion.getText());
+		vio.setMajorPenalty((String) cbxMajorPenalty.getSelectedItem());
+		vio.setObject((String) cbxObject.getSelectedItem());
+		vio.setHandlingAgency((String) cbxHandlingAgency.getSelectedItem());
+		try {
+			vio.setFines(Double.parseDouble(txtFines.getText()));
+			vio.setAlreadySubmmited(Double.parseDouble(txtAlreadySumitted.getText()));
+		} catch (NumberFormatException e) {
+			e.printStackTrace(IOFile.getPrintStream(ErrorType.CONVERT_ERROR));
+			e.printStackTrace();
+		}
+
+		return tmpModel.equals(vio);
 	}
 
 	public static void main(String[] args) {
@@ -310,8 +433,13 @@ public class PanelViolation extends JPanel {
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jframe.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 
-		jframe.setContentPane(new PanelViolation());
-		jframe.setSize(900, 400);
+		ViolationCore model = new ViolationCore();
+		ViolationController controller = new ViolationController(model);
+
+		jframe.setContentPane(controller.getView());
+		jframe.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
+		jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 		jframe.setVisible(true);
 	}
 

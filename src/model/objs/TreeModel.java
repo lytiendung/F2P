@@ -1,7 +1,6 @@
 package model.objs;
 
-public class TreeModel extends AbstracModelObject {
-	private long id;
+public class TreeModel extends AbstractModelObject {
 	private String nameVi;
 	private String nameEn;
 	private String nameLatinh;
@@ -24,14 +23,6 @@ public class TreeModel extends AbstracModelObject {
 		this.nameLatinh = nameLatinh;
 		this.lastname = lastname;
 		this.rare = rare;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getNameVi() {

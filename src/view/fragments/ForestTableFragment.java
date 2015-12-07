@@ -1,6 +1,6 @@
 package view.fragments;
 
-import controller.violation.AbstractFragmentTableController;
+import controller.fragments.AbstractFragmentTableController;
 import factory.TableFactory;
 import model.datatable.AbstractDataTable;
 

@@ -146,23 +146,10 @@ public class TreesDataTable extends AbstractDataTable {
 	}
 
 	@Override
-	public boolean saveOrUpdateRow(int row) {
-		return LibDao.saveOrUpdateTree((TreeModel) data.get(row));
-	}
-
-	@Override
 	public void autoSave(int row) {
 		TreeModel tree = (TreeModel) data.get(row);
 		if (!tree.isEmptyObj())
 			LibDao.saveOrUpdateTree(tree);
-	}
-
-	public int[] rowListToIdList(int[] rows) {
-		int[] ids = new int[rows.length];
-		for (int i = 0; i < rows.length; i++) {
-			ids[i] = (int) ((TreeModel) data.get(rows[i])).getId();
-		}
-		return ids;
 	}
 
 }

@@ -2,13 +2,21 @@ package model.datatable;
 
 import java.util.ArrayList;
 
+import factory.FragmentDaoFactory;
+import model.objs.AbstractModelObject;
 import model.objs.ForestModel;
 
-public class ForestDataTable extends AbstractDataTable {
+public class ForestDataTable extends AbstractDataTableFragment {
 	private static final long serialVersionUID = -4651213693517146488L;
 
-	public ForestDataTable(String[] colNames) {
-		super(colNames);
+	public ForestDataTable() {
+		super(new String[] { "Lo\u1EA1i CQL", "T\u00EAn ch\u1EE7 qu\u1EA3n", "Lo\u1EA1i r\u1EEBng",
+				"R\u1EEBng tr\u1ED3ng (m2)", "R\u1EEBng t\u1EF1 nhi\u00EAn (m2)" });
+	}
+
+	@Override
+	protected void initDao() {
+		this.dao = FragmentDaoFactory.getInstanceForest();
 	}
 
 	@Override
@@ -90,44 +98,18 @@ public class ForestDataTable extends AbstractDataTable {
 	}
 
 	@Override
-	public boolean clearData() {
-		// TODO Auto-generated method stub
-		return false;
+	protected AbstractModelObject createEmptyObj() {
+		return new ForestModel();
 	}
 
 	@Override
-	public boolean addRow() {
-		if (hasNullRow())
-			return false;
-		else {
-			data.add(new ForestModel());
-			fireTableDataChanged();
-			return true;
-		}
+	public boolean updateBreachId(long idBreach) {
+		return dao.updateAllBreachId(data, idBreach);
 	}
 
 	@Override
-	public boolean deleteRow(int[] rows) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean saveOrUpdateRow(int row) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void autoSave(int row) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected int[] rowListToIdList(int[] rows) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deleteByBreachId(long idBreach) {
+		return dao.deleteByBreachId(idBreach);
 	}
 
 }
