@@ -26,7 +26,43 @@ public class ForestFragmentDao extends AbstractFragmentDao {
 			ForestModel forestModel = null;
 			while (rs.next()) {
 				forestModel = new ForestModel(rs.getLong("id"), rs.getString("kind_CQL"), rs.getString("nameManager"),
-						rs.getString("forestType"), rs.getDouble("plantations"), rs.getDouble("narutalForest"));
+						rs.getString("forestType"), rs.getDouble("plantations"), rs.getDouble("naturalForest"));
+				result.add(forestModel);
+			}
+
+			rs.close();
+			sta.close();
+			conn.close();
+
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace(IOFile.getPrintStream(ErrorType.DB_ERROR));
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<AbstractModelObject> loadTmpData() {
+		return loadDataByBreachId(ViolationDao.DEFAULT_TMP_ID);
+	}
+
+	@Override
+	public List<AbstractModelObject> loadDataByBreachId(long breachId) {
+		try {
+			Connection conn = DBConnection.DBConnect();
+			Statement sta = conn.createStatement();
+			StringBuilder sql = new StringBuilder("SELECT * FROM ").append(RootDao.TABLE_FOREST)
+					.append(" WHERE idDataBreach=").append(breachId);
+			ResultSet rs = sta.executeQuery(sql.toString());
+
+			List<AbstractModelObject> result = new ArrayList<>();
+			ForestModel forestModel = null;
+			while (rs.next()) {
+				forestModel = new ForestModel(rs.getLong("id"), rs.getString("kind_CQL"), rs.getString("nameManager"),
+						rs.getString("forestType"), rs.getDouble("plantations"), rs.getDouble("naturalForest"));
 				result.add(forestModel);
 			}
 
@@ -87,6 +123,7 @@ public class ForestFragmentDao extends AbstractFragmentDao {
 				rs.close();
 			}
 
+			System.out.println("save or update forest: " + sql.toString());
 			pre.close();
 			conn.close();
 

@@ -1,5 +1,7 @@
 package model.datatable;
 
+import java.util.Arrays;
+
 import dao.AbstractFragmentDao;
 import dao.ViolationDao;
 import model.main.Observer;
@@ -11,7 +13,6 @@ public abstract class AbstractDataTableFragment extends AbstractDataTable implem
 
 	public AbstractDataTableFragment(String[] colNames) {
 		super(colNames);
-		initDao();
 	}
 
 	protected abstract void initDao();
@@ -49,7 +50,19 @@ public abstract class AbstractDataTableFragment extends AbstractDataTable implem
 
 	@Override
 	public boolean deleteRow(int[] rows) {
-		return this.dao.deleteRecords(rowListToIdList(rows));
+		boolean result = false;
+		if (this.dao.deleteRecords(rowListToIdList(rows))) {
+			Arrays.sort(rows);
+			for (int i = rows.length - 1; i > -1; i--)
+				data.remove(rows[i]);
+
+			result = true;
+		} else {
+			refreshData();
+			result = false;
+		}
+		fireTableDataChanged();
+		return result;
 	}
 
 	@Override
@@ -60,5 +73,21 @@ public abstract class AbstractDataTableFragment extends AbstractDataTable implem
 	}
 
 	protected abstract AbstractModelObject createEmptyObj();
+
+	@Override
+	public boolean updateBreachId(long idBreach) {
+		boolean result = dao.updateAllBreachId(data, idBreach);
+		loadData();
+
+		return result;
+	}
+
+	@Override
+	public boolean deleteByBreachId(long idBreach) {
+		boolean result = dao.deleteByBreachId(idBreach);
+		loadData();
+
+		return result;
+	}
 
 }

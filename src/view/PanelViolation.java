@@ -6,7 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.SystemColor;
+import java.text.NumberFormat;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -15,15 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import com.alee.extended.date.WebDateField;
 import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.button.WebButton;
+import com.alee.laf.separator.WebSeparator;
 import com.alee.laf.toolbar.ToolbarStyle;
 import com.alee.laf.toolbar.WebToolBar;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -33,7 +34,12 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import controller.ViolationController;
 import controller.fragments.AbstractFragmentTableController;
-import controller.fragments.ForestTableController;
+import controller.fragments.ForestFragmentTableController;
+import controller.fragments.ForestryOtherFragmentTableController;
+import controller.fragments.VehicleFragmentTableController;
+import controller.fragments.ViolatorFragmentTableController;
+import controller.fragments.WildAnimalFragmentTableController;
+import controller.fragments.WoodFragmentTableController;
 import dao.RootDao;
 import dao.ViolationDao;
 import extend.IOFile;
@@ -42,9 +48,13 @@ import factory.ButtonFactory;
 import factory.CommandFactory;
 import factory.ImageFactory;
 import model.datatable.ForestDataTable;
+import model.datatable.ForestryOtherDataTable;
+import model.datatable.VehicleDataTable;
+import model.datatable.ViolatorDataTable;
+import model.datatable.WildAnimalDataTable;
+import model.datatable.WoodDataTable;
 import model.main.ViolationCore;
 import model.objs.ViolationModel;
-import javax.swing.DefaultComboBoxModel;
 
 public class PanelViolation extends JPanel {
 	private static final long serialVersionUID = -4090572103960843279L;
@@ -61,6 +71,8 @@ public class PanelViolation extends JPanel {
 	private JComboBox<String> cbxHandlingAgency;
 	private JFormattedTextField txtFines;
 	private JFormattedTextField txtAlreadySumitted;
+	private JLabel lblNewLabel;
+	private JLabel lblReportState;
 
 	public PanelViolation(ViolationCore model, ViolationController controller) {
 		setLayout(new BorderLayout(0, 0));
@@ -153,14 +165,15 @@ public class PanelViolation extends JPanel {
 		JLabel lblPhtChnh = new JLabel("Phạt chính");
 		panelViolation.add(lblPhtChnh, "1, 9");
 
-		cbxMajorPenalty = new JComboBox<>(new String[] { "Phạt tiền", "Cảnh cáo" });
-		// cbxMajorPenalty.addActionListener(controller);
+		cbxMajorPenalty = new JComboBox<>();
+		cbxMajorPenalty.setModel(new DefaultComboBoxModel<>(new String[] { "Phạt tiền", "Cảnh cáo" }));
 		panelViolation.add(cbxMajorPenalty, "3, 9, 7, 1");
 
 		JLabel lbltngVp = new JLabel("Đ.tượng VP");
 		panelViolation.add(lbltngVp, "1, 11");
 
-		cbxObject = new JComboBox<>(new String[] { "Tổ chức", "Cá nhân" });
+		cbxObject = new JComboBox<>();
+		cbxObject.setModel(new DefaultComboBoxModel<>(new String[] { "Tổ chức", "Cá nhân" }));
 		panelViolation.add(cbxObject, "3, 11, 7, 1");
 
 		JLabel lblCQuanX = new JLabel("Cơ quan xử lý");
@@ -181,7 +194,7 @@ public class PanelViolation extends JPanel {
 				FormSpecs.LABEL_COMPONENT_GAP_COLSPEC, ColumnSpec.decode("default:grow"), FormSpecs.DEFAULT_COLSPEC, },
 				new RowSpec[] { FormSpecs.DEFAULT_ROWSPEC, }));
 
-		txtFines = new JFormattedTextField();
+		txtFines = new JFormattedTextField(NumberFormat.getIntegerInstance());
 		txtFines.addActionListener(controller);
 		txtFines.addFocusListener(controller);
 		panel_3.add(txtFines, "1, 1, fill, default");
@@ -229,13 +242,11 @@ public class PanelViolation extends JPanel {
 		JScrollPane scrollVehicle = new JScrollPane();
 		panelVehicle.add(scrollVehicle, BorderLayout.CENTER);
 
-		JTable tableVehicle = new JTable();
-		tableVehicle.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null }, { null, null, null, null, null },
-						{ null, null, null, null, null }, },
-				new String[] { "T\u00EAn ph\u01B0\u01A1ng ti\u1EC7n", "S\u1ED1 l\u01B0\u1EE3ng",
-						"Bi\u1EC3n ki\u1EC3m so\u00E1t", "Thu", "Ghi ch\u00FA" }));
-		scrollVehicle.setViewportView(tableVehicle);
+		VehicleDataTable vehicleModel = new VehicleDataTable();
+		model.registerObserver(vehicleModel);
+		VehicleFragmentTableController vehicleController = new VehicleFragmentTableController(vehicleModel);
+
+		scrollVehicle.setViewportView(vehicleController.getView());
 		splitPane_3.setLeftComponent(panelVehicle);
 		// ==================================================
 		JPanel panelAnimal = new JPanel();
@@ -247,15 +258,14 @@ public class PanelViolation extends JPanel {
 		JScrollPane scrollAnimal = new JScrollPane();
 		panelAnimal.add(scrollAnimal, BorderLayout.CENTER);
 
-		JTable tableAnimal = new JTable();
-		tableAnimal.setModel(new DefaultTableModel(
-				new Object[][] { { "", null, null, null, null }, { null, null, null, null, null },
-						{ null, null, null, null, null }, },
-				new String[] { "T\u00EAn", "S\u1ED1 l\u01B0\u1EE3ng", "Tr\u1ECDng l\u01B0\u1EE3ng (Kg)", "Hi\u1EBFm",
-						"Thu" }));
-		scrollAnimal.setViewportView(tableAnimal);
+		WildAnimalDataTable wildAnimalModel = new WildAnimalDataTable();
+		model.registerObserver(wildAnimalModel);
+		WildAnimalFragmentTableController wildAnimalController = new WildAnimalFragmentTableController(wildAnimalModel);
+
+		scrollAnimal.setViewportView(wildAnimalController.getView());
 		splitPane_3.setRightComponent(panelAnimal);
 
+		// =================================================
 		JSplitPane splitPane_4 = new JSplitPane();
 		splitPane_4.setOneTouchExpandable(true);
 		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -270,16 +280,11 @@ public class PanelViolation extends JPanel {
 		JScrollPane scrollPeople = new JScrollPane();
 		panelPeople.add(scrollPeople, BorderLayout.CENTER);
 
-		JTable tablePeople = new JTable();
-		tablePeople.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null, null, null, null },
-						{ null, null, null, null, null, null, null, null },
-						{ null, null, null, null, null, null, null, null }, },
-				new String[] { "H\u1ECD t\u00EAn", "Gi\u1EDBi t\u00EDnh", "D\u00E2n t\u1ED9c",
-						"Ch\u1EE9ng minh th\u01B0 | Gi\u1EA5y ph\u00E9p l\u00E1i xe", "H\u00E0nh vi vi ph\u1EA1m",
-						"T\u00EAn \u1EA3nh", "S\u1ED1 Q\u0110XP/Q\u0110-XPHC", "S\u1ED1 bi\u00EAn b\u1EA3n" }));
-		tablePeople.getColumnModel().getColumn(7).setResizable(false);
-		scrollPeople.setViewportView(tablePeople);
+		ViolatorDataTable violatorModel = new ViolatorDataTable();
+		model.registerObserver(violatorModel);
+		ViolatorFragmentTableController violatorController = new ViolatorFragmentTableController(violatorModel);
+
+		scrollPeople.setViewportView(violatorController.getView());
 		splitPane_4.setLeftComponent(panelPeople);
 		// ==================================================
 		JPanel panelForestOther = new JPanel();
@@ -290,13 +295,12 @@ public class PanelViolation extends JPanel {
 		JScrollPane scrollForestOther = new JScrollPane();
 		panelForestOther.add(scrollForestOther, BorderLayout.CENTER);
 
-		JTable tableForestOther = new JTable();
-		tableForestOther.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
-						{ null, null, null, null, null, null }, },
-				new String[] { "T\u00EAn", "\u0110\u01A1n v\u1ECB t\u00EDnh", "S\u1ED1 l\u01B0\u1EE3ng",
-						"Tr\u1ECDng l\u01B0\u1EE3ng (Kg)", "Hi\u1EBFm", "Thu" }));
-		scrollForestOther.setViewportView(tableForestOther);
+		ForestryOtherDataTable forestryModel = new ForestryOtherDataTable();
+		model.registerObserver(forestryModel);
+		ForestryOtherFragmentTableController forestryCotroller = new ForestryOtherFragmentTableController(
+				forestryModel);
+
+		scrollForestOther.setViewportView(forestryCotroller.getView());
 		splitPane_4.setRightComponent(panelForestOther);
 
 		JSplitPane splitPane_2 = new JSplitPane();
@@ -316,7 +320,7 @@ public class PanelViolation extends JPanel {
 
 		ForestDataTable forestDataTable = new ForestDataTable();
 		model.registerObserver(forestDataTable);
-		AbstractFragmentTableController forestController = new ForestTableController(forestDataTable);
+		AbstractFragmentTableController forestController = new ForestFragmentTableController(forestDataTable);
 
 		scrollForest.setViewportView(forestController.getView());
 		splitPane_2.setLeftComponent(panelForest);
@@ -331,14 +335,11 @@ public class PanelViolation extends JPanel {
 		JScrollPane scrollWood = new JScrollPane();
 		panelWood.add(scrollWood, BorderLayout.CENTER);
 
-		JTable tableWood = new JTable();
-		tableWood.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, "", null, null, null },
-						{ null, null, null, null, null, null, null, null },
-						{ null, null, null, null, null, null, null, null }, },
-				new String[] { "Lo\u1EA1i", "Nh\u00F3m", "T\u00EAn", "\u0110\u01A1n v\u1ECB t\u00EDnh",
-						"S\u1ED1 l\u01B0\u1EE3ng", "Kh\u1ED1i l\u01B0\u1EE3ng (m3)", "Hi\u1EBFm", "Thu" }));
-		scrollWood.setViewportView(tableWood);
+		WoodDataTable woodModel = new WoodDataTable();
+		model.registerObserver(woodModel);
+		WoodFragmentTableController woodController = new WoodFragmentTableController(woodModel);
+
+		scrollWood.setViewportView(woodController.getView());
 		splitPane_2.setRightComponent(panelWood);
 
 		JPanel panelToolBar = new JPanel();
@@ -364,15 +365,28 @@ public class PanelViolation extends JPanel {
 		webToolBar.add(btnReset);
 
 		JPanel panel_1 = new JPanel();
-		FlowLayout flowLayout_1 = (FlowLayout) panel_1.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEADING);
 		panelToolBar.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new FormLayout(
+				new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+						FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC, FormSpecs.RELATED_GAP_COLSPEC,
+						FormSpecs.DEFAULT_COLSPEC, FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+						FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC, },
+				new RowSpec[] { FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
 
-		JLabel lblTrngThi = new JLabel("Trạng thái:");
-		panel_1.add(lblTrngThi);
+		lblNewLabel = new JLabel("Tổng số biên bản:");
+		panel_1.add(lblNewLabel, "2, 2");
 
-		JLabel lblNhpLiu = new JLabel("nhập liệu");
-		panel_1.add(lblNhpLiu);
+		JLabel lblNumReport = new JLabel("999");
+		panel_1.add(lblNumReport, "4, 2");
+
+		WebSeparator webSeparator = new WebSeparator();
+		panel_1.add(webSeparator, "6, 2");
+
+		JLabel lblTrngThi = new JLabel("Trạng thái biên bản hiện tại:");
+		panel_1.add(lblTrngThi, "8, 2");
+
+		lblReportState = new JLabel("chờ nhập liệu");
+		panel_1.add(lblReportState, "10, 2");
 
 		updateModelToView();
 

@@ -4,7 +4,7 @@ import controller.fragments.AbstractFragmentTableController;
 import factory.TableFactory;
 import model.datatable.AbstractDataTable;
 
-public class ForestTableFragment extends TableFragment {
+public class ForestTableFragment extends AbstractTableFragment {
 
 	public ForestTableFragment(AbstractDataTable model, AbstractFragmentTableController controller) {
 		super(model, controller);

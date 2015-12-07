@@ -11,9 +11,9 @@ import extend.IOFile.ErrorType;
 import model.objs.ViolationModel;
 
 public class ViolationDao {
-	private static final long DEFAULT_TMP_ID = 1;
+	protected static final long DEFAULT_TMP_ID = 1;
 	private static ViolationModel model;
-	private static boolean tmpModel;
+	private static boolean tmpModel = true;
 
 	public static ViolationModel getModel() {
 		if (model == null)

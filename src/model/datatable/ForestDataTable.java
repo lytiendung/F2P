@@ -1,7 +1,6 @@
 package model.datatable;
 
-import java.util.ArrayList;
-
+import dao.ViolationDao;
 import factory.FragmentDaoFactory;
 import model.objs.AbstractModelObject;
 import model.objs.ForestModel;
@@ -21,8 +20,18 @@ public class ForestDataTable extends AbstractDataTableFragment {
 
 	@Override
 	protected void loadData() {
-		this.data = new ArrayList<>();
-		this.data.add(new ForestModel());
+		if (this.dao == null)
+			initDao();
+
+		if (ViolationDao.isTmpModel()) {
+			this.data = dao.loadTmpData();
+			// add null row for user type data
+			this.data.add(new ForestModel());
+		} else {
+			this.data = dao.loadDataByBreachId(ViolationDao.getModel().getId());
+		}
+
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -100,16 +109,6 @@ public class ForestDataTable extends AbstractDataTableFragment {
 	@Override
 	protected AbstractModelObject createEmptyObj() {
 		return new ForestModel();
-	}
-
-	@Override
-	public boolean updateBreachId(long idBreach) {
-		return dao.updateAllBreachId(data, idBreach);
-	}
-
-	@Override
-	public boolean deleteByBreachId(long idBreach) {
-		return dao.deleteByBreachId(idBreach);
 	}
 
 }

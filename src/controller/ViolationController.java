@@ -51,12 +51,12 @@ public class ViolationController implements ActionListener, FocusListener, IView
 			}
 			break;
 		default:
-			updateModel();
+			autoUpdateModel();
 			break;
 		}
 	}
 
-	private void updateModel() {
+	private void autoUpdateModel() {
 		if (!view.updateViewToModel()) {
 			ViolationDao.updateTmpModel();
 			System.out.println("update model");
@@ -74,7 +74,7 @@ public class ViolationController implements ActionListener, FocusListener, IView
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		updateModel();
+		autoUpdateModel();
 	}
 
 }

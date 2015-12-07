@@ -3,9 +3,9 @@ package controller.fragments;
 import model.datatable.AbstractDataTable;
 import view.fragments.ForestTableFragment;
 
-public class ForestTableController extends AbstractFragmentTableController {
+public class ForestFragmentTableController extends AbstractFragmentTableController {
 
-	public ForestTableController(AbstractDataTable model) {
+	public ForestFragmentTableController(AbstractDataTable model) {
 		super(model);
 	}
 

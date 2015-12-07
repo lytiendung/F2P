@@ -45,6 +45,9 @@ public class RootDao {
 	}
 
 	protected static boolean deleteRecordInTable(String table, long... ls) {
+		if (ls.length == 0)
+			return true;
+
 		ArrayList<Long> fillterList = fillterList(ls);
 		String whereCond = listToString(fillterList);
 

@@ -12,11 +12,11 @@ import factory.CommandFactory;
 import factory.ImageFactory;
 import model.datatable.AbstractDataTable;
 
-public abstract class TableFragment {
+public abstract class AbstractTableFragment {
 	protected JXTable table;
 	protected JPopupMenu popupMenu;
 
-	public TableFragment(AbstractDataTable model, AbstractFragmentTableController controller) {
+	public AbstractTableFragment(AbstractDataTable model, AbstractFragmentTableController controller) {
 		initPopupMenu(controller);
 		initTable(model, controller);
 	}
@@ -49,6 +49,25 @@ public abstract class TableFragment {
 
 	public JXTable getTableView() {
 		return this.table;
+	}
+
+	public int[] getSelectedRows() {
+		int[] selectedRow = table.getSelectedRows();
+		int[] realRow = new int[table.getSelectedRowCount()];
+		for (int i = 0; i < realRow.length; i++) {
+			realRow[i] = table.convertRowIndexToModel(selectedRow[i]);
+		}
+		return realRow;
+	}
+
+	public void changeSelection(int rowIndex) {
+		rowIndex = table.convertRowIndexToView(rowIndex);
+		table.changeSelection(rowIndex, 0, false, false);
+	}
+
+	public void refreshTable() {
+		table.resetSortOrder();
+		table.changeSelection(0, 0, false, false);
 	}
 
 }
