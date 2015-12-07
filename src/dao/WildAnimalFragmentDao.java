@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.objs.AbstractModelObject;
 
-public class ForestryOtherDao extends AbstractFragmentDao {
+public class WildAnimalFragmentDao extends AbstractFragmentDao {
 
 	@Override
 	public List<AbstractModelObject> loadData() {
