@@ -2,19 +2,19 @@ package factory;
 
 import dao.AbstractFragmentDao;
 import dao.ForestFragmentDao;
-import dao.ForestryOtherDao;
+import dao.ForestryOtherFragmentDao;
 import dao.VehicleFragmentDao;
-import dao.ViolatorDao;
-import dao.WildAnimalDao;
-import dao.WoodDao;
+import dao.ViolatorFragmentDao;
+import dao.WildAnimalFragmentDao;
+import dao.WoodFragmentDao;
 
 public class FragmentDaoFactory {
 	private static ForestFragmentDao forestDao;
 	private static VehicleFragmentDao vehicleDao;
-	private static WildAnimalDao wildAnimalDao;
-	private static ForestryOtherDao forestryOtherDao;
-	private static WoodDao woodDao;
-	private static ViolatorDao violatorDao;
+	private static WildAnimalFragmentDao wildAnimalDao;
+	private static ForestryOtherFragmentDao forestryOtherDao;
+	private static WoodFragmentDao woodDao;
+	private static ViolatorFragmentDao violatorDao;
 
 	public static ForestFragmentDao getInstanceForest() {
 		if (forestDao == null)
@@ -30,25 +30,25 @@ public class FragmentDaoFactory {
 
 	public static AbstractFragmentDao getInstanceWildAnimal() {
 		if (wildAnimalDao == null)
-			wildAnimalDao = new WildAnimalDao();
+			wildAnimalDao = new WildAnimalFragmentDao();
 		return wildAnimalDao;
 	}
 
 	public static AbstractFragmentDao getInstanceForestryOther() {
 		if (forestryOtherDao == null)
-			forestryOtherDao = new ForestryOtherDao();
+			forestryOtherDao = new ForestryOtherFragmentDao();
 		return forestryOtherDao;
 	}
 
 	public static AbstractFragmentDao getInstanceWoodDao() {
 		if (woodDao == null)
-			woodDao = new WoodDao();
+			woodDao = new WoodFragmentDao();
 		return woodDao;
 	}
 
 	public static AbstractFragmentDao getInstanceViolatorDao() {
 		if (violatorDao == null)
-			violatorDao = new ViolatorDao();
+			violatorDao = new ViolatorFragmentDao();
 		return violatorDao;
 	}
 

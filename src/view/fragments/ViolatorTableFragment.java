@@ -1,7 +1,6 @@
 package view.fragments;
 
-import com.alee.laf.table.editors.WebDateEditor;
-
+import celleditor.DateCellEditor;
 import controller.fragments.AbstractFragmentTableController;
 import factory.TableFactory;
 import model.datatable.AbstractDataTable;
@@ -16,7 +15,9 @@ public class ViolatorTableFragment extends AbstractTableFragment {
 	public void initTable(AbstractDataTable model, AbstractFragmentTableController controller) {
 		this.table = TableFactory.createCustomTable(model, controller);
 
-		this.table.setDefaultEditor(WebDateEditor.class, new WebDateEditor());
+		this.table.getColumnModel().getColumn(2)
+				.setCellEditor(TableFactory.createDefaultComboboxCellEditor(new String[] { "Nam", "Nữ" }));
+		this.table.setDefaultEditor(DateCellEditor.class, new DateCellEditor());
 	}
 
 }

@@ -1,4 +1,4 @@
-package factory;
+package celleditor;
 
 import java.awt.Component;
 import java.awt.Toolkit;
@@ -21,6 +21,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import com.alee.laf.text.WebFormattedTextField;
+
+import factory.MessageFactory;
 
 public class NumberCellEditor extends DefaultCellEditor {
 	private static final long serialVersionUID = -2321311338901700832L;

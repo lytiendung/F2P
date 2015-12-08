@@ -1,12 +1,13 @@
 package model.datatable;
 
-import java.util.ArrayList;
+import java.text.ParseException;
 
-import com.alee.laf.table.editors.WebDateEditor;
-
+import celleditor.DateCellEditor;
+import dao.RootDao;
+import dao.ViolationDao;
 import factory.FragmentDaoFactory;
 import model.objs.AbstractModelObject;
-import model.objs.ViolationModel;
+import model.objs.ViolatorModel;
 
 public class ViolatorDataTable extends AbstractDataTableFragment {
 	private static final long serialVersionUID = 2161268305280386384L;
@@ -27,19 +28,142 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 
 	@Override
 	protected void loadData() {
-		this.data = new ArrayList<>();
-		this.data.add(createEmptyObj());
+		if (this.dao == null)
+			initDao();
+
+		if (ViolationDao.isTmpModel()) {
+			this.data = dao.loadTmpData();
+			// add null row for user type data
+			this.data.add(createEmptyObj());
+		} else {
+			this.data = dao.loadDataByBreachId(ViolationDao.getModel().getId());
+		}
+
+		fireTableDataChanged();
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		Object val = null;
+		ViolatorModel model = (ViolatorModel) data.get(rowIndex);
+		switch (columnIndex) {
+		case 0:
+			val = model.getFullName();
+			break;
+		case 1:
+			val = RootDao.DATE_FORMAT_USER.format(model.getBirthday());
+			break;
+		case 2:
+			val = model.getSex();
+			break;
+		case 3:
+			val = model.getNation();
+			break;
+		case 4:
+			val = model.getCardIdentify();
+			break;
+		case 5:
+			val = model.getImageName();
+			break;
+		case 6:
+			val = model.getAddress();
+			break;
+		case 7:
+			val = model.getNumberRule();
+			break;
+		case 8:
+			val = model.getNumberReport();
+			break;
+		case 9:
+			val = RootDao.DATE_FORMAT_USER.format(model.getDateRule());
+			break;
+		case 10:
+			val = RootDao.DATE_FORMAT_USER.format(model.getDateReport());
+			break;
+		case 11:
+			val = model.getBehavior();
+			break;
+		case 12:
+			val = model.getSerial();
+			break;
+		case 13:
+			val = model.getSolution();
+			break;
+		case 14:
+			val = model.getFine();
+			break;
+		case 15:
+			val = model.getSubmitted();
+			break;
+		}
+		return val;
 	}
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
+		ViolatorModel model = (ViolatorModel) data.get(rowIndex);
+		switch (columnIndex) {
+		case 0:
+			model.setFullName((String) aValue);
+			break;
+		case 1:
+			try {
+				model.setBirthday(RootDao.DATE_FORMAT_USER.parse((String) aValue));
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			break;
+		case 2:
+			model.setSex((String) aValue);
+			break;
+		case 3:
+			model.setNation((String) aValue);
+			break;
+		case 4:
+			model.setCardIdentify((String) aValue);
+			break;
+		case 5:
+			model.setImageName((String) aValue);
+			break;
+		case 6:
+			model.setAddress((String) aValue);
+			break;
+		case 7:
+			model.setNumberRule((String) aValue);
+			break;
+		case 8:
+			model.setNumberReport((String) aValue);
+			break;
+		case 9:
+			try {
+				model.setDateRule(RootDao.DATE_FORMAT_USER.parse((String) aValue));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 10:
+			try {
+				model.setDateReport(RootDao.DATE_FORMAT_USER.parse((String) aValue));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			break;
+		case 11:
+			model.setBehavior((String) aValue);
+			break;
+		case 12:
+			model.setSerial((String) aValue);
+			break;
+		case 13:
+			model.setSolution((String) aValue);
+			break;
+		case 14:
+			model.setFine((double) aValue);
+			break;
+		case 15:
+			model.setSubmitted((double) aValue);
+			break;
+		}
 	}
 
 	@Override
@@ -47,7 +171,7 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 		switch (columnIndex) {
 		case 9:
 		case 10:
-			return WebDateEditor.class;
+			return DateCellEditor.class;
 		case 14:
 		case 15:
 			return Double.class;
@@ -63,7 +187,7 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 
 	@Override
 	protected AbstractModelObject createEmptyObj() {
-		return new ViolationModel();
+		return new ViolatorModel();
 	}
 
 }

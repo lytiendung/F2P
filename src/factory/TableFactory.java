@@ -23,6 +23,7 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 import com.alee.laf.combobox.WebComboBox;
 import com.alee.laf.text.WebTextField;
 
+import celleditor.NumberCellEditor;
 import controller.TableHeaderControlPopup;
 import controller.fragments.AbstractFragmentTableController;
 import controller.libs.AbstractLibController;
@@ -127,7 +128,10 @@ public class TableFactory {
 		WebComboBox cbx = new WebComboBox(items);
 		cbx.setDrawBorder(false);
 
-		return new ComboBoxCellEditor(cbx);
+		ComboBoxCellEditor cellEditor = new ComboBoxCellEditor(cbx);
+		cellEditor.setClickCountToStart(1);
+
+		return cellEditor;
 	}
 
 }
