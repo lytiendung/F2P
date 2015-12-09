@@ -56,17 +56,17 @@ public class MainFrame extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 
-		JMenuItem mntmTreesLibrary = new JMenuItem("Trees library");
+		JMenuItem mntmTreesLibrary = new JMenuItem("Thư viện tên thực vật");
 		mntmTreesLibrary.addActionListener(controll);
 		mntmTreesLibrary.setActionCommand(CommandFactory.PANEL_LIB_TREE);
 		mnFile.add(mntmTreesLibrary);
 
-		JMenuItem mntmAnimalsLibrary = new JMenuItem("Animals library");
+		JMenuItem mntmAnimalsLibrary = new JMenuItem("Thư viện tên động vật");
 		mntmAnimalsLibrary.addActionListener(controll);
 		mntmAnimalsLibrary.setActionCommand(CommandFactory.PANEL_LIB_ANIMAL);
 		mnFile.add(mntmAnimalsLibrary);
 
-		JMenuItem mntmSolutionsLibrary = new JMenuItem("Solutions library");
+		JMenuItem mntmSolutionsLibrary = new JMenuItem("Thư viện giải pháp");
 		mntmSolutionsLibrary.addActionListener(controll);
 		mntmSolutionsLibrary.setActionCommand(CommandFactory.PANEL_LIB_SOLUTION);
 		mnFile.add(mntmSolutionsLibrary);
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
 
 		// TODO test panels
 		JMenu mnTest = new JMenu("Test");
-		mnFile.add(mnTest);
+		// mnFile.add(mnTest);
 
 		JMenuItem mntmPanel = new JMenuItem("Panel001");
 		mntmPanel.setActionCommand("panel1");

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -127,6 +128,23 @@ public class TableFactory {
 	public static ComboBoxCellEditor createDefaultComboboxCellEditor(Object[] items) {
 		WebComboBox cbx = new WebComboBox(items);
 		cbx.setDrawBorder(false);
+
+		ComboBoxCellEditor cellEditor = new ComboBoxCellEditor(cbx);
+		cellEditor.setClickCountToStart(1);
+
+		return cellEditor;
+	}
+
+	public static WebComboBox createPairWebComboBox(Object[] items) {
+		WebComboBox cbx = new WebComboBox(items);
+		cbx.setDrawBorder(false);
+		cbx.setEditable(true);
+
+		return cbx;
+	}
+
+	public static ComboBoxCellEditor createEditableComboboxCellEditor(WebComboBox cbx) {
+		AutoCompleteDecorator.decorate(cbx);
 
 		ComboBoxCellEditor cellEditor = new ComboBoxCellEditor(cbx);
 		cellEditor.setClickCountToStart(1);

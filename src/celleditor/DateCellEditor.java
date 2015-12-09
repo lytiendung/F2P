@@ -12,6 +12,8 @@ public class DateCellEditor extends WebDateEditor {
 	private static final long serialVersionUID = 8988390758814353109L;
 
 	public DateCellEditor() {
+		setClickCountToStart(1);
+		editorComponent.setDateFormat(RootDao.DATE_FORMAT_USER);
 		delegate = new EditorDelegate<Object>() {
 			private static final long serialVersionUID = -7748092569349070167L;
 			private Date date;

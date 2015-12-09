@@ -24,6 +24,7 @@ public class RootDao {
 	protected static final String TABLE_WOOD = "wood";
 	protected static final DateFormat DATE_FORMAT_SQL = new SimpleDateFormat("MM/dd/yyyy");
 	public static final SimpleDateFormat DATE_FORMAT_USER = new SimpleDateFormat("dd/MM/yyyy");
+	public static final SimpleDateFormat DATE_FORMAT_YEAR_ONLY = new SimpleDateFormat("yyyy");
 	protected static java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
 
 	// TODO root method

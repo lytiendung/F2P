@@ -17,7 +17,7 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 				"Ch\u1EE9ng minh th\u01B0 | Gi\u1EA5y ph\u00E9p l\u00E1i xe", "T\u00EAn \u1EA3nh",
 				"\u0110\u1ECBa ch\u1EC9", "S\u1ED1 Q\u0110XP/Q\u0110-XPHC", "S\u1ED1 bi\u00EAn b\u1EA3n",
 				"Ng\u00E0y quy\u1EBFt \u0111\u1ECBnh", "Ng\u00E0y l\u1EADp bi\u00EAn b\u1EA3n",
-				"H\u00E0nh vi vi ph\u1EA1m", "Ph\u1EA1t b\u1ED5 sung", "Bi\u1EC7n ph\u00E1p kh\u1EAFc ph\u1EE5c",
+				"Ph\u1EA1t b\u1ED5 sung", "H\u00E0nh vi vi ph\u1EA1m", "Bi\u1EC7n ph\u00E1p kh\u1EAFc ph\u1EE5c",
 				"Ti\u1EC1n ph\u1EA1t", "\u0110\u00E3 n\u1ED9p" });
 	}
 
@@ -51,7 +51,7 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 			val = model.getFullName();
 			break;
 		case 1:
-			val = RootDao.DATE_FORMAT_USER.format(model.getBirthday());
+			val = RootDao.DATE_FORMAT_YEAR_ONLY.format(model.getBirthday());
 			break;
 		case 2:
 			val = model.getSex();
@@ -81,10 +81,10 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 			val = RootDao.DATE_FORMAT_USER.format(model.getDateReport());
 			break;
 		case 11:
-			val = model.getBehavior();
+			val = model.getSerial();
 			break;
 		case 12:
-			val = model.getSerial();
+			val = model.getBehavior();
 			break;
 		case 13:
 			val = model.getSolution();
@@ -149,10 +149,10 @@ public class ViolatorDataTable extends AbstractDataTableFragment {
 			}
 			break;
 		case 11:
-			model.setBehavior((String) aValue);
+			model.setSerial((String) aValue);
 			break;
 		case 12:
-			model.setSerial((String) aValue);
+			model.setBehavior((String) aValue);
 			break;
 		case 13:
 			model.setSolution((String) aValue);
