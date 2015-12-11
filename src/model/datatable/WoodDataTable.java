@@ -10,8 +10,9 @@ public class WoodDataTable extends AbstractDataTableFragment {
 	private static final long serialVersionUID = -2201877776517195058L;
 
 	public WoodDataTable() {
-		super(new String[] { "Lo\u1EA1i", "Nh\u00F3m", "T\u00EAn", "\u0110\u01A1n v\u1ECB t\u00EDnh",
-				"S\u1ED1 l\u01B0\u1EE3ng", "Kh\u1ED1i l\u01B0\u1EE3ng (m3)", "Hi\u1EBFm", "Thu" });
+		super(new String[] { "Lo\u1EA1i", "Nh\u00F3m", "T\u00EAn",
+				"\u0110\u01A1n v\u1ECB t\u00EDnh", "S\u1ED1 l\u01B0\u1EE3ng",
+				"Kh\u1ED1i l\u01B0\u1EE3ng (m3)", "Hi\u1EBFm", "Thu" });
 	}
 
 	@Override
@@ -27,13 +28,73 @@ public class WoodDataTable extends AbstractDataTableFragment {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		Object val = null;
+		WoodModel model = (WoodModel) data.get(rowIndex);
+		switch (columnIndex) {
+		case 0:
+			val = model.getType();
+			break;
+		case 1:
+			val = model.getGroup();
+			break;
+		case 2:
+			val = model.getName();
+			break;
+		case 3:
+			val = model.getUnit();
+			break;
+		case 4:
+			val = model.getAmount();
+			break;
+		case 5:
+			val = model.getWeight();
+			break;
+		case 6:
+			val = model.getRate();
+			break;
+		case 7:
+			val = model.isKeep();
+
+		}
+		return val;
 	}
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
+		WoodModel model = (WoodModel) data.get(rowIndex);
+		switch (columnIndex) {
+		case 0:
+			model.setType((String) aValue);
+			break;
+		case 1:
+			model.setGroup((String) aValue);
+			break;
+		case 2:
+			model.setName((String) aValue);
+			break;
+		case 3:
+			model.setUnit((String) aValue);
+			break;
+		case 4:
+			model.setAmount((Integer) aValue);
+			break;
+		case 5:
+			model.setWeight((double) aValue);
+			break;
+		case 6:
+			model.setRate((String) aValue);
+			break;
+		default:
+			model.setKeep((boolean) aValue);
+			break;
+		}
+		if (!model.isEmptyObj() && model.getId() == -1) {
+			autoSave(rowIndex);
+			addRow();
+			fireTableDataChanged();
+		} else {
+			fireTableCellUpdated(rowIndex, columnIndex);
+		}
 	}
 
 	@Override
