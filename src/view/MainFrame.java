@@ -145,9 +145,6 @@ public class MainFrame extends JFrame {
 		this.workspaceView.add(libSolutionsController.getView(), CommandFactory.PANEL_LIB_SOLUTION);
 
 		// test panels
-		Panel001 panel1 = new Panel001();
-		this.workspaceView.add(panel1, "panel1");
-
 		Panel002 panel2 = new Panel002();
 		this.workspaceView.add(panel2, "panel2");
 

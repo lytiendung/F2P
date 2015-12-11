@@ -50,6 +50,8 @@ public class ViolationController implements ActionListener, FocusListener, IView
 				view.updateModelToView();
 			}
 			break;
+		case CommandFactory.OWNER_CMD:
+			view.updateOwner();
 		default:
 			autoUpdateModel();
 			break;

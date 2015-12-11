@@ -24,6 +24,7 @@ public interface CommandFactory {
 	public static final String RESET_CMD = "reset";
 	public static final String CBX1_CMD = "cbx1";
 	public static final String CBX2_CMD = "cbx2";
+	public static final String OWNER_CMD = "owner";
 
 	public static final String HOR_SCROLL_CMD = "hscroll";
 	public static final String PACK_CURRENT_COL_CMD = "packcol";

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.SystemColor;
 import java.text.NumberFormat;
 
@@ -12,7 +11,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,7 +20,6 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import com.alee.extended.date.WebDateField;
-import com.alee.laf.WebLookAndFeel;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.separator.WebSeparator;
 import com.alee.laf.toolbar.ToolbarStyle;
@@ -107,6 +104,7 @@ public class PanelViolation extends JPanel {
 		panelViolation.add(panel_2, "5, 1, 5, 1, left, center");
 
 		ckbOwner = new JCheckBox("Có chủ");
+		ckbOwner.setActionCommand(CommandFactory.OWNER_CMD);
 		ckbOwner.addActionListener(controller);
 		panel_2.add(ckbOwner);
 
@@ -411,6 +409,10 @@ public class PanelViolation extends JPanel {
 		this.cbxHandlingAgency.setSelectedItem(vio.getHandlingAgency());
 		this.txtFines.setText(vio.getFines() + "");
 		this.txtAlreadySumitted.setText(vio.getAlreadySubmmited() + "");
+
+		boolean hasOwner = vio.isOwer();
+		this.txtNumberRule.setEnabled(hasOwner);
+		this.dateDayRule.setEnabled(hasOwner);
 	}
 
 	public boolean updateViewToModel() {
@@ -439,22 +441,10 @@ public class PanelViolation extends JPanel {
 		return tmpModel.equals(vio);
 	}
 
-	public static void main(String[] args) {
-		JFrame jframe = new JFrame("Lib trees");
-
-		WebLookAndFeel.install();
-
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
-
-		ViolationCore model = new ViolationCore();
-		ViolationController controller = new ViolationController(model);
-
-		jframe.setContentPane(controller.getView());
-		jframe.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
-		jframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-		jframe.setVisible(true);
+	public void updateOwner() {
+		boolean hasOwner = ckbOwner.isSelected();
+		this.txtNumberRule.setEnabled(hasOwner);
+		this.dateDayRule.setEnabled(hasOwner);
 	}
 
 }
